@@ -8,7 +8,7 @@ import { t } from './i18n'
 import { voiceLabel } from './labels'
 import { ensurePython, launchServer, pluginEnv, setSetup } from './setup'
 import type { PluginEnv } from './setup'
-import { applyUiLanguage, writeCatalog, writeStatus } from './state'
+import { applyUiLanguage, readIsActivated, writeActivated, writeCatalog, writeStatus } from './state'
 
 let lastStatusJson = ''
 let isReadingNow = false
@@ -40,6 +40,7 @@ export async function storeStatus($: EngineInterface, raw: unknown): Promise<Ech
     const previous = lastStatusJson ? (JSON.parse(lastStatusJson) as EchoStatus | null) : null
     lastStatusJson = json
     await writeStatus($, next)
+    await notifySetupProgress($, previous, next)
     // Koniec pobierania głosu: odśwież katalog i daj znać.
     if (previous?.downloading && next && previous.downloading !== next.downloading) {
       await refreshCatalog($)
@@ -50,6 +51,29 @@ export async function storeStatus($: EngineInterface, raw: unknown): Promise<Ech
     }
   }
   return next
+}
+
+/** Czy głosy są gotowe: serwer działa, jest co najmniej jeden głos i nic się już nie pobiera. */
+export function isVoiceSetupDone(s: EchoStatus | null): boolean {
+  return s !== null && s.voices.length > 0 && !s.downloading && s.queued.length === 0
+}
+
+/**
+ * Pierwsza instalacja (Echo jeszcze nie uruchomione): powiadomienia o pobieraniu głosów i o gotowości.
+ * Po „Uruchom Echo” już się nie pokazują.
+ */
+async function notifySetupProgress($: EngineInterface, previous: EchoStatus | null, next: EchoStatus | null): Promise<void> {
+  if (next === null || (await readIsActivated($))) return
+  await applyUiLanguage($)
+  if (next.downloading && !previous?.downloading) $.ui.toast(t('onboarding.toastVoices'))
+  if (isVoiceSetupDone(next) && !isVoiceSetupDone(previous)) $.ui.toast(t('onboarding.toastReady'))
+}
+
+/** „Uruchom Echo”: włącza czytanie (od następnej odpowiedzi Claude'a) i daje znać. */
+export async function startEcho($: EngineInterface): Promise<void> {
+  await writeActivated($)
+  await applyUiLanguage($)
+  $.ui.toast(t('onboarding.toastStarted'))
 }
 
 /** Czy według ostatniego stanu coś jest czytane (wtedy stan odświeża się częściej). */

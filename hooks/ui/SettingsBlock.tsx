@@ -35,7 +35,8 @@ function voiceOptions(s: EchoStatus): { value: string; label: string }[] {
     const name = languageLabel(s, one.code)
     const defaultVoice = currentVoiceOf(s, one.code)
     for (const model of models) {
-      const label = models.length > 1 ? `${name}: ${modelLabel(s, model)}` : name
+      // Imię głosu zawsze widoczne (np. „English: Ryan”), także gdy język ma jeden głos - wiadomo, że to głos neuronowy.
+      const label = `${name}: ${modelLabel(s, model)}`
       const isDefault = models.length > 1 && defaultVoice !== undefined && modelOf(defaultVoice) === model
       options.push({ value: VOICE_PREFIX + model, label: markDefault(label, isDefault) })
     }

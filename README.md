@@ -11,23 +11,49 @@ A Claude Code plugin (terminal and the Claude desktop app, Code tab) that **read
 
 Works on Windows, macOS and Linux (tested on Windows; macOS and Linux are supported but not tested yet).
 
+**Private and local by design:**
+
+- **Nothing leaves your computer** - no cloud, no account, no cost. Speech is generated locally.
+- **Local only** - the speech server listens on `127.0.0.1`, so it cannot be reached from the network.
+- **No tracking** - no telemetry, no analytics, your conversations are never sent anywhere.
+- **Self-contained** - Python environment and voices live in the plugin's own data folder; nothing is installed system-wide.
+- **Does not touch Claude's answers** - it only reads them aloud (details: "What Echo changes in Claude Code" below).
+
 ## Installation
 
 **Requirements:** Python 3.9 or newer ([python.org](https://www.python.org/downloads/)). On Linux you also need an audio player: `paplay` (PulseAudio/PipeWire), `pw-play`, `aplay` or `ffplay`.
 
-In Claude Code (terminal):
+In Claude Code (terminal or VS Code), type these two commands in the message box - they work in every version:
 
 ```
-/plugin install echo --marketplace mironek/echo
+/plugin marketplace add mironek/echo
 ```
+
+```
+/plugin install echo@echo
+```
+
+`echo@echo` means: the `echo` plugin from the marketplace named `echo`. Newer versions of Claude Code also accept a single command: `/plugin install echo --marketplace mironek/echo`.
 
 From the command line:
 
 ```
-claude plugin install echo --marketplace mironek/echo
+claude plugin marketplace add mironek/echo
+claude plugin install echo@echo
 ```
 
-In the desktop app: **+** next to the message box → **Plugins** → **Add marketplace**, enter `mironek/echo`, then **Add plugin** next to Echo.
+In the desktop app: **+** next to the message box → **Plugins** → **Add marketplace**, enter `mironek/echo`, then **Add plugin** next to Echo. A plugin installed in the desktop app works in VS Code too (the same Claude Code settings).
+
+**Right after installing:** if the Echo bar does not appear on its own, type `/reload-plugins` in the message box (or start a new chat) - Claude Code loads new plugins only then.
+
+### What Echo changes in Claude Code
+
+When you install a plugin, Claude Code warns that plugins can change how it works - so here is exactly what Echo does. Echo only reads Claude's visible replies to speak them on your computer and passes every reply on unchanged; the one thing it adds is a single sentence in Claude's instructions asking it to write messages meant for you as visible text, so they can be read aloud.
+
+- **It reads:** your submitted prompts (only to know when a new answer starts), Claude's replies and their live stream (passed on untouched, nothing is added, removed or rewritten).
+- **It changes:** one added sentence in Claude's system instructions - nothing else in your prompts, Claude's replies, tools or files.
+- **It runs:** a local speech server (Python) that listens only on `127.0.0.1`; on first run it installs Piper from PyPI and downloads voices from Hugging Face.
+- **It never:** collects telemetry, tracks you or sends your conversations anywhere.
 
 ### First run
 
@@ -36,7 +62,10 @@ Echo sets everything up by itself in the plugin's data folder; the bar shows the
 1. it finds Python and creates its own environment (venv),
 2. it installs Piper (`pip install piper-tts`): this takes a few minutes, only the first time,
 3. it starts the local speech server,
-4. it downloads the basic voice pack: English (Lessac) and Polish (Gosia, MC Speech), about 60 MB each.
+4. it downloads the basic voice pack: English (Ryan) and Polish (MC Speech), about 60 MB each. More voices are one click away in the languages pane,
+5. it shows **Echo is ready** with a **Start Echo** button - Echo starts reading only after you press it (once; later sessions start on their own).
+
+Pop-up notifications tell you about each step. Until you press **Start Echo**, Echo reads nothing and changes nothing in Claude Code.
 
 Right after installation: English interface, **Live** mode, Voice **Auto**, **Soft** sounds, **30 days** of memory - all of it is set by the `startup.json` file (below).
 
@@ -57,9 +86,9 @@ The `startup.json` file in the plugin folder sets how Echo works right after ins
 | `memoryDays` | `30` | How long to keep each chat's answer, in days: `0` (off), `7`, `30`, `90` |
 | `visualizer` | `"wave"` | Reading visualizer: `off`, `wave`, `bars`, `dot` |
 | `visualizerColor` | `"orange"` | Visualizer color: `orange`, `white`, `blue`, `teal`, `green`, `lime`, `purple`, `pink`, `red`, `yellow` or your own `#hex` |
-| `defaultVoices` | Lessac, Gosia, MC Speech | Voices downloaded on first run (keys from the Piper catalog) |
+| `defaultVoices` | Ryan, MC Speech | Voices downloaded on first run (keys from the Piper catalog) |
 
-**How Echo picks a voice with no settings:** in Auto mode it detects the language of the reply among the languages that have an installed voice (Polish text - Polish voice, English text - English voice). When the language cannot be detected, it uses `fallbackLanguage`, and when that has no voice - the first installed language. Within a language it reads with the voice chosen in ⚙, or without a choice - the first installed one (Gosia for Polish, Lessac for English). Messages that arrive before the voices are downloaded wait and are read as soon as the first voice is ready.
+**How Echo picks a voice with no settings:** in Auto mode it detects the language of the reply among the languages that have an installed voice (Polish text - Polish voice, English text - English voice). When the language cannot be detected, it uses `fallbackLanguage`, and when that has no voice - the first installed language. Within a language it reads with the voice chosen in ⚙, or without a choice - the first installed one (MC Speech for Polish, Ryan for English). Messages that arrive before the voices are downloaded wait and are read as soon as the first voice is ready.
 
 ### Installing from npm
 

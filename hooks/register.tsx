@@ -14,7 +14,7 @@ import {
 import { callServer, ensureServer, isReading, logEvent, sendInOrder, storeStatus } from './server'
 import { isVisibleThinking } from './labels'
 import { readStartup } from './setup'
-import { loadUiLanguage, writeSettingsOpen } from './state'
+import { loadActivation, loadUiLanguage, readIsActivated, writeSettingsOpen } from './state'
 import { renderSettingsPane } from './ui/SettingsBlock'
 import { renderEchoBar } from './ui/EchoBar'
 import { renderHelpPane } from './ui/HelpPane'
@@ -26,6 +26,7 @@ export const register: Register = on => {
     const startup = await readStartup($)
     await loadUiLanguage($, typeof startup.uiLanguage === 'string' ? startup.uiLanguage : undefined)
     await registerEchoCommand($)
+    await loadActivation($)
     // Nowa sesja zaczyna bez otwartego panelu ustawień (⚙ nie jest podświetlone).
     await writeSettingsOpen($, false)
     void ensureServer($)
@@ -40,8 +41,11 @@ export const register: Register = on => {
   })
 
   // Instrukcja dla Claude'a: wiadomości do użytkownika tylko jako widoczny tekst (Echo nie czyta myślenia).
+  // Dopiero po „Uruchom Echo”: przy instalacji Echo nie zmienia instrukcji Claude'a, więc Claude Code może
+  // wczytać wtyczkę od razu, w trwającej sesji.
   on('prompt.compose', async ($, e, next) => {
     const composed = await next(e)
+    if (!(await readIsActivated($))) return composed
     return { sections: [...composed.sections, READ_ALOUD_PROMPT_SECTION] }
   })
 
@@ -49,6 +53,7 @@ export const register: Register = on => {
   // Tylko pytanie wysłane, gdy nic nie trwa (bez turnId): wiadomości dostarczane w trakcie pracy Claude'a
   // (powiadomienia, przypomnienia, kolejka) należą do bieżącej odpowiedzi i nie mogą jej wyczyścić.
   on('prompt.submit', async ($, e, next) => {
+    if (!(await readIsActivated($))) return next(e)
     const isNewQuestion = e.command === undefined && e.isMeta === undefined && e.turnId === undefined
     const detail = `origin=${e.origin.kind}, turnId=${e.turnId ?? '-'}, meta=${e.isMeta ?? false}, command=${e.command !== undefined}`
     if (await ensureServer($)) {
@@ -67,6 +72,7 @@ export const register: Register = on => {
   // z treścią to tekst, który użytkownik widzi w czacie jak wiadomość - Echo czyta go jak zwykłą wiadomość.
   // Każdy fragment strumienia przechodzi dalej bez zmian; blok jest wysyłany, gdy się skończy (zaczyna się następny).
   on('turn.step', async function* ($, e, next) {
+    if (!(await readIsActivated($))) return yield* next(e)
     const stream = next(e)
     let blockIndex = -1
     let blockText = ''
@@ -106,7 +112,7 @@ export const register: Register = on => {
   // Każda wiadomość Claude'a w głównej rozmowie od razu staje się nowymi sekcjami.
   on('session.append', { door: 'response' }, async ($, e, next) => {
     const stored = await next(e)
-    if (e.agentId === undefined && e.message.type === 'assistant') {
+    if (e.agentId === undefined && e.message.type === 'assistant' && (await readIsActivated($))) {
       const parts: string[] = []
       for (const block of e.message.content) {
         if (block.type === 'text' && typeof block.text === 'string' && block.text.trim() !== '') parts.push(block.text)
@@ -123,7 +129,7 @@ export const register: Register = on => {
 
   // Koniec pracy Claude'a: w trybie Wynik zostaje i jest czytana tylko ostatnia odpowiedź (po ostatnim narzędziu).
   on('turn.complete', async ($, e, next) => {
-    if (e.agentId === undefined && (await ensureServer($))) {
+    if (e.agentId === undefined && (await readIsActivated($)) && (await ensureServer($))) {
       await logEvent($, 'turn.complete', `reason=${e.reason}`)
       await sendInOrder($, '/turn/end', { reason: e.reason })
     }

@@ -7,8 +7,8 @@ import { MODE_SELECT_EXTRA_WIDTH, PX_PER_CELL, STATUS_MIN_WIDTH_WITH_VISUAL, STA
 import { t } from '../i18n'
 import { setupText, stateText } from '../labels'
 import { openHelpPane, toggleSettingsPane } from '../panes'
-import { control, ensureServer } from '../server'
-import { applyUiLanguage, readIsSettingsOpen, readSetup, readStatus } from '../state'
+import { control, ensureServer, isVoiceSetupDone, startEcho } from '../server'
+import { applyUiLanguage, readIsActivated, readIsSettingsOpen, readSetup, readStatus } from '../state'
 import { styles } from '../styles'
 import { visualSize, visualSvg } from '../visualizer'
 import type { VisualizerKind } from '../visualizer'
@@ -22,6 +22,28 @@ function OfflineBar(ui: ElementTable, $: EngineInterface, progress: EchoSetup) {
     <Box {...styles.row}>
       <Text dimColor>Echo: {setupText(progress)}</Text>
       {!isBusy && <Button key="start" label={t('bar.start')} onPress={() => void ensureServer($)} />}
+    </Box>
+  )
+}
+
+/**
+ * Pierwsza instalacja (Echo jeszcze nie uruchomione): postęp pobierania głosów, a gdy wszystko gotowe -
+ * „Echo gotowe” i przycisk „Uruchom Echo”. Po kliknięciu pojawia się zwykły pasek.
+ */
+function OnboardingBar(ui: ElementTable, $: EngineInterface, s: EchoStatus) {
+  const { Box, Button, Text } = ui
+  if (!isVoiceSetupDone(s)) {
+    const progress = s.downloading ? stateText(s) : t('onboarding.downloadingVoices')
+    return (
+      <Box {...styles.row}>
+        <Text dimColor>Echo: {progress}</Text>
+      </Box>
+    )
+  }
+  return (
+    <Box {...styles.row}>
+      <Text>{t('onboarding.ready')}</Text>
+      <Button key="start-echo" variant="primary" label={t('onboarding.start')} onPress={() => void startEcho($)} />
     </Box>
   )
 }
@@ -122,6 +144,7 @@ export async function renderEchoBar($: EngineInterface, ui: ElementTable) {
   await applyUiLanguage($)
   const s = await readStatus($)
   if (s === null) return OfflineBar(ui, $, await readSetup($))
+  if (!(await readIsActivated($))) return OnboardingBar(ui, $, s)
   const isSettingsShown = await readIsSettingsOpen($)
   const { Box } = ui
   return (

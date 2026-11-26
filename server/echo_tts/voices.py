@@ -17,8 +17,8 @@ CATALOG_URL = VOICE_BASE_URL + "voices.json"
 QUALITY_RANK = {"medium": 0, "high": 1, "low": 2, "x_low": 3}
 # Głos instalowany dla całego języka, gdy jest w katalogu; inaczej pierwszy głos średniej jakości.
 PREFERRED_VOICES = {
-    "pl": "pl_PL-gosia-medium",
-    "en": "en_US-lessac-medium",
+    "pl": "pl_PL-mc_speech-medium",
+    "en": "en_US-ryan-medium",
     "de": "de_DE-thorsten-medium",
     "fr": "fr_FR-siwis-medium",
     "it": "it_IT-paola-medium",
@@ -104,7 +104,7 @@ def defaultVoiceOf(code):
 
 
 def installDefaultVoices():
-    """Przy pierwszym starcie (brak głosów) pobiera podstawowy pakiet: angielski Lessac, polskie Gosia i MC Speech."""
+    """Przy pierwszym starcie (brak głosów) pobiera podstawowy pakiet: angielski Ryan i polski MC Speech."""
     if installedVoices():
         return
     try:

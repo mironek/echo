@@ -28,6 +28,10 @@ const setup = atom(
 )
 /** Język interfejsu Echo (kod ISO); domyślnie angielski. */
 const uiLanguage = atom({ plugin: 'echo', key: 'uiLanguage' } as const, DEFAULT_UI_LANGUAGE)
+/** Czy użytkownik uruchomił Echo („Uruchom Echo” po pierwszej instalacji); trwa między sesjami ($.store). */
+const isActivated = atom({ plugin: 'echo', key: 'isActivated' } as const, false)
+// Klucz w $.store z informacją, że Echo zostało uruchomione.
+const ACTIVATED_STORE_KEY = 'activated'
 
 // ------------------------------------------------- odczyt (podczas rysowania) ---
 export async function readStatus($: EngineInterface): Promise<EchoStatus | null> {
@@ -106,4 +110,21 @@ export async function loadUiLanguage($: EngineInterface, startupCode?: string): 
   const code = typeof saved === 'string' ? saved : (startupCode ?? DEFAULT_UI_LANGUAGE)
   await update($, uiLanguage, () => code)
   useUiLanguage(code)
+}
+
+/** Czy Echo jest uruchomione (czyta odpowiedzi i dopisuje zdanie do instrukcji Claude'a). */
+export async function readIsActivated($: EngineInterface): Promise<boolean> {
+  return read($, isActivated)
+}
+
+/** Na starcie sesji wczytuje, czy Echo było już uruchomione (po pierwszej instalacji: nie). */
+export async function loadActivation($: EngineInterface): Promise<void> {
+  const saved = await $.store.get(ACTIVATED_STORE_KEY)
+  await update($, isActivated, () => saved === true)
+}
+
+/** „Uruchom Echo”: zapamiętuje uruchomienie na kolejne sesje. */
+export async function writeActivated($: EngineInterface): Promise<void> {
+  await update($, isActivated, () => true)
+  await $.store.set(ACTIVATED_STORE_KEY, true)
 }

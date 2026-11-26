@@ -87,6 +87,7 @@ declare module 'claude-code' {
       isSettingsOpen: boolean
       setup: Shaped<EchoSetup>
       uiLanguage: string
+      isActivated: boolean
     }
   }
 }

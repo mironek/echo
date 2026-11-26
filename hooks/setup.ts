@@ -5,7 +5,8 @@ import type { EngineInterface } from 'claude-code'
 import type { EchoSetup } from '../types'
 import type { MessageKey } from './locales/en'
 import { MIN_PYTHON_VERSION, PIP_INSTALL_TIMEOUT_MS, VENV_CREATE_TIMEOUT_MS } from './config'
-import { writeSetup } from './state'
+import { t } from './i18n'
+import { applyUiLanguage, writeSetup } from './state'
 
 /** Gdzie leży wtyczka i jej dane oraz na jakim systemie działa. */
 export type PluginEnv = {
@@ -132,6 +133,8 @@ export async function ensurePython($: EngineInterface, env: PluginEnv): Promise<
   }
 
   await setSetup($, 'installing', 'setup.installingPiper')
+  await applyUiLanguage($)
+  $.ui.toast(t('onboarding.toastSetup'))
   const installed = await tryRun(
     $,
     [env.venvPython, '-m', 'pip', 'install', '--disable-pip-version-check', '-r', `${env.root}/server/requirements.txt`],

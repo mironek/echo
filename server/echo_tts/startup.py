@@ -19,7 +19,7 @@ BUILT_IN = {
     "memoryDays": 30,
     "visualizer": "wave",
     "visualizerColor": "orange",
-    "defaultVoices": ["en_US-lessac-medium", "pl_PL-gosia-medium", "pl_PL-mc_speech-medium"],
+    "defaultVoices": ["en_US-ryan-medium", "pl_PL-mc_speech-medium"],
 }
 
 

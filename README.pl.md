@@ -11,23 +11,49 @@ Wtyczka do Claude Code (terminal i aplikacja desktopowa Claude, zakładka Code),
 
 Działa na Windows, macOS i Linuksie (przetestowane na Windows; macOS i Linux są obsługiwane, ale jeszcze nie przetestowane).
 
+**Prywatne i lokalne z założenia:**
+
+- **Nic nie wychodzi z Twojego komputera** - bez chmury, bez konta, za darmo. Mowa powstaje lokalnie.
+- **Tylko lokalnie** - serwer mowy nasłuchuje na `127.0.0.1`, więc nie da się z nim połączyć z sieci.
+- **Bez śledzenia** - bez telemetrii i analityki, Twoje rozmowy nigdzie nie są wysyłane.
+- **Wszystko w jednym miejscu** - środowisko Pythona i głosy leżą w folderze danych wtyczki; nic nie jest instalowane w systemie.
+- **Nie rusza odpowiedzi Claude'a** - tylko czyta je na głos (szczegóły: „Co Echo zmienia w Claude Code” niżej).
+
 ## Instalacja
 
 **Wymagania:** Python 3.9 lub nowszy ([python.org](https://www.python.org/downloads/)). Na Linuksie dodatkowo odtwarzacz dźwięku: `paplay` (PulseAudio/PipeWire), `pw-play`, `aplay` albo `ffplay`.
 
-W Claude Code (terminal):
+W Claude Code (terminal lub VS Code) wpisz w polu wiadomości dwie komendy - działają w każdej wersji:
 
 ```
-/plugin install echo --marketplace mironek/echo
+/plugin marketplace add mironek/echo
 ```
+
+```
+/plugin install echo@echo
+```
+
+`echo@echo` znaczy: wtyczka `echo` z marketplace o nazwie `echo`. Nowsze wersje Claude Code przyjmują też jedną komendę: `/plugin install echo --marketplace mironek/echo`.
 
 Z wiersza poleceń:
 
 ```
-claude plugin install echo --marketplace mironek/echo
+claude plugin marketplace add mironek/echo
+claude plugin install echo@echo
 ```
 
-W aplikacji desktopowej: **+** obok pola wiadomości → **Plugins** → **Add marketplace**, wpisz `mironek/echo`, potem **Add plugin** przy Echo.
+W aplikacji desktopowej: **+** obok pola wiadomości → **Plugins** → **Add marketplace**, wpisz `mironek/echo`, potem **Add plugin** przy Echo. Wtyczka zainstalowana w aplikacji desktopowej działa też w VS Code (te same ustawienia Claude Code).
+
+**Zaraz po instalacji:** jeśli pasek Echo nie pojawi się sam, wpisz w polu wiadomości `/reload-plugins` (albo otwórz nowy czat) - dopiero wtedy Claude Code wczytuje nowe wtyczki.
+
+### Co Echo zmienia w Claude Code
+
+Przy instalacji wtyczki Claude Code ostrzega, że wtyczki mogą zmieniać jego działanie - dlatego wyjaśniamy dokładnie, co robi Echo. Echo tylko czyta widoczne odpowiedzi Claude'a, żeby wypowiedzieć je na Twoim komputerze, i przekazuje każdą odpowiedź dalej bez zmian; jedyne, co dodaje, to jedno zdanie w instrukcjach Claude'a z prośbą, żeby wiadomości dla Ciebie pisał zwykłym, widocznym tekstem - wtedy da się je przeczytać na głos.
+
+- **Czyta:** wysłane przez Ciebie pytania (tylko po to, żeby wiedzieć, kiedy zaczyna się nowa odpowiedź), odpowiedzi Claude'a i ich strumień na żywo (przekazywany dalej bez zmian: nic nie jest dodawane, usuwane ani przerabiane).
+- **Zmienia:** jedno dodane zdanie w instrukcjach systemowych Claude'a - nic więcej w Twoich pytaniach, odpowiedziach Claude'a, narzędziach ani plikach.
+- **Uruchamia:** lokalny serwer mowy (Python), który nasłuchuje tylko na `127.0.0.1`; przy pierwszym uruchomieniu instaluje Piper z PyPI i pobiera głosy z Hugging Face.
+- **Nigdy:** nie zbiera telemetrii, nie śledzi Cię i nigdzie nie wysyła Twoich rozmów.
 
 ### Pierwsze uruchomienie
 
@@ -36,7 +62,10 @@ Echo samo przygotowuje wszystko w folderze danych wtyczki; na pasku widać post�
 1. szuka Pythona i tworzy dla siebie osobne środowisko (venv),
 2. instaluje Piper (`pip install piper-tts`): to trwa kilka minut, tylko za pierwszym razem,
 3. uruchamia lokalny serwer mowy,
-4. pobiera podstawowy pakiet głosów: angielski (Lessac) i polskie (Gosia, MC Speech), po ok. 60 MB każdy.
+4. pobiera podstawowy pakiet głosów: angielski (Ryan) i polski (MC Speech), po ok. 60 MB każdy. Kolejne głosy dodasz jednym kliknięciem w panelu języków,
+5. pokazuje **Echo gotowe** z przyciskiem **Uruchom Echo** - Echo zaczyna czytać dopiero po jego kliknięciu (jednorazowo; kolejne sesje startują same).
+
+O każdym etapie informują powiadomienia. Dopóki nie klikniesz **Uruchom Echo**, Echo nic nie czyta i niczego nie zmienia w Claude Code.
 
 Od razu po instalacji: interfejs po angielsku, tryb **Live**, Głos **Auto**, dźwięki **Delikatny**, pamięć **30 dni** - wszystko to ustala plik `startup.json` (niżej).
 
@@ -57,9 +86,9 @@ Plik `startup.json` w folderze wtyczki ustala, jak Echo działa zaraz po instala
 | `memoryDays` | `30` | Pamięć odpowiedzi czatu w dniach: `0` (wyłączona), `7`, `30`, `90` |
 | `visualizer` | `"wave"` | Wizualizacja czytania: `off`, `wave` (Fala), `bars` (Słupki), `dot` (Kropka) |
 | `visualizerColor` | `"orange"` | Kolor wizualizacji: `orange`, `white`, `blue`, `teal`, `green`, `lime`, `purple`, `pink`, `red`, `yellow` albo własny `#hex` |
-| `defaultVoices` | Lessac, Gosia, MC Speech | Głosy pobierane przy pierwszym uruchomieniu (klucze z katalogu Piper) |
+| `defaultVoices` | Ryan, MC Speech | Głosy pobierane przy pierwszym uruchomieniu (klucze z katalogu Piper) |
 
-**Jak Echo wybiera głos bez ustawień:** w trybie Auto rozpoznaje język odpowiedzi spośród języków, które mają zainstalowany głos (polski tekst - polski głos, angielski - angielski). Gdy nie da się go rozpoznać, bierze `fallbackLanguage`, a gdy ten nie ma głosu - pierwszy zainstalowany język. W obrębie języka czyta głosem wybranym w ⚙, a bez wyboru - pierwszym zainstalowanym (dla polskiego Gosia, dla angielskiego Lessac). Wiadomości, które przyjdą, zanim pobiorą się głosy, czekają i zostaną przeczytane, gdy tylko pierwszy głos będzie gotowy.
+**Jak Echo wybiera głos bez ustawień:** w trybie Auto rozpoznaje język odpowiedzi spośród języków, które mają zainstalowany głos (polski tekst - polski głos, angielski - angielski). Gdy nie da się go rozpoznać, bierze `fallbackLanguage`, a gdy ten nie ma głosu - pierwszy zainstalowany język. W obrębie języka czyta głosem wybranym w ⚙, a bez wyboru - pierwszym zainstalowanym (dla polskiego MC Speech, dla angielskiego Ryan). Wiadomości, które przyjdą, zanim pobiorą się głosy, czekają i zostaną przeczytane, gdy tylko pierwszy głos będzie gotowy.
 
 ### Instalacja z npm
 

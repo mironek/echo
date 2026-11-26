@@ -9,6 +9,13 @@ export const en = {
   'mode.live': 'Live',
   'bar.start': 'Start',
   'bar.serverDown': 'speech server is not running',
+  'onboarding.ready': 'Echo is ready',
+  'onboarding.start': 'Start Echo',
+  'onboarding.downloadingVoices': 'downloading voices…',
+  'onboarding.toastSetup': 'Echo: first-time setup - installing Piper (a few minutes)…',
+  'onboarding.toastVoices': 'Echo: downloading the basic voices…',
+  'onboarding.toastReady': 'Echo is ready - press „Start Echo” on the Echo bar',
+  'onboarding.toastStarted': 'Echo is on - Claude\'s replies will be read aloud',
   // Stan (szary tekst po prawej)
   'state.installingVoice': 'installing {voice}…',
   'state.queued': ' (+{count})',
