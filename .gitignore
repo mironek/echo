@@ -1,8 +1,68 @@
-node_modules/
+# --- Claude Code ---------------------------------------------------------------
+# Typy, które Claude Code generuje przy ładowaniu moda (każdy ma je u siebie).
 .claude-plugin/types/
-__pycache__/
-*.pyc
+# --- Prywatne ustawienia i instrukcje asystentów AI (każdy programista ma własne) ---
+# Claude Code: ustawienia, komendy, agenci i notatki projektu.
+.claude/
+CLAUDE.md
+CLAUDE.local.md
+# Inne narzędzia: Codex / OpenAI, Gemini, Cursor, Windsurf, Cline, Aider, Continue, Copilot, Junie, Kiro.
+AGENTS.md
+AGENT.md
+.agents/
+.codex/
+GEMINI.md
+.gemini/
+.cursor/
+.cursorrules
+.windsurf/
+.windsurfrules
+.clinerules
+.clinerules/
+.aider*
+.continue/
+.github/copilot-instructions.md
+.github/instructions/
+.junie/
+.kiro/
+
+# --- Dane Echo (głosy, venv, pamięć odpowiedzi, logi) ----------------------------
+# Folder danych zapasowy, gdy Claude Code nie poda CLAUDE_PLUGIN_DATA.
 .data/
+# Na wszelki wypadek: modele głosów, nagrania, katalog głosów, pamięć czatów.
+*.onnx
+*.onnx.json
+*.wav
+voices.json
+history/
+
+# --- Python ----------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+venv/
+.venv/
+.pytest_cache/
+.mypy_cache/
+
+# --- Node / npm ------------------------------------------------------------------
+node_modules/
+*.tgz
+dist/
+npm-debug.log*
+
+# --- Logi ------------------------------------------------------------------------
 *.log
+*.log.*
+
+# --- Sekrety ---------------------------------------------------------------------
+.env
+.env.*
+
+# --- System i edytory ------------------------------------------------------------
 .DS_Store
 Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
+*~

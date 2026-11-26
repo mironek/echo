@@ -1,6 +1,6 @@
 {
   "name": "claude-echo-tts",
-  "version": "0.9.1",
+  "version": "1.0.0",
   "description": "Echo: wtyczka Claude Code, która czyta odpowiedzi Claude'a na głos lokalnym, neuronowym głosem Piper.",
   "license": "MIT",
   "author": "Mirosław Sokół",

@@ -217,7 +217,13 @@ Folder danych wtyczki zakłada Claude Code (`CLAUDE_PLUGIN_DATA`); zostaje przy 
 
 ## Rozwój
 
-Struktura kodu i zasady: [CLAUDE.md](CLAUDE.md). Mod w trakcie pracy ładuje się z folderu przez `CLAUDE_CODE_PLUGIN_DIRS` (i `CLAUDE_CODE_PLUGIN_DIR_WATCH=1` — zmiany wczytują się same).
+Struktura kodu:
+
+- `hooks/` — mod (TypeScript): `register.tsx` podpina zdarzenia, `ui/` to komponenty paska i paneli, `locales/` tłumaczenia (każdy nowy tekst we wszystkich językach), `config.ts` ustawienia, `styles.ts` wspólny wygląd, `visualizer.ts` wizualizacja SVG.
+- `server/` — serwer mowy (Python, Piper): `main.py` i pakiet `echo_tts/`.
+- `startup.json` — ustawienia nowej instalacji.
+
+Mod w trakcie pracy ładuje się z folderu przez `CLAUDE_CODE_PLUGIN_DIRS` (i `CLAUDE_CODE_PLUGIN_DIR_WATCH=1` — zmiany wczytują się same).
 
 ```
 npm install
