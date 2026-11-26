@@ -20,6 +20,8 @@ export const LANGUAGES_PANE_ID = 'echo-languages'
 export const HELP_PANE_ID = 'echo-help'
 export const SETTINGS_PANE_ID = 'echo-settings'
 export const HELP_FILE_NAME = 'README.md'
+// README w języku interfejsu, gdy istnieje (kod języka → plik); pozostałe języki dostają README.md (po angielsku).
+export const HELP_FILES_BY_LANGUAGE: Record<string, string> = { pl: 'README.pl.md' }
 
 // ------------------------------------------------------------------ pasek ---
 export const PREV_ICON = '❮'

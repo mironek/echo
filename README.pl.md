@@ -5,9 +5,11 @@
 
 # Echo
 
+[English](README.md) | **Polski**
+
 Wtyczka do Claude Code (terminal i aplikacja desktopowa Claude, zakładka Code), która **czyta odpowiedzi Claude'a na głos** lokalnymi głosami neuronowymi [Piper](https://github.com/OHF-Voice/piper1-gpl). Mowa powstaje w całości na Twoim komputerze: tekst nie jest nigdzie wysyłany.
 
-Działa na Windows, macOS i Linuksie.
+Działa na Windows, macOS i Linuksie (przetestowane na Windows; macOS i Linux są obsługiwane, ale jeszcze nie przetestowane).
 
 ## Instalacja
 
@@ -54,7 +56,7 @@ Plik `startup.json` w folderze wtyczki ustala, jak Echo działa zaraz po instala
 | `sounds` | `"soft"` | Dźwięki: `off`, `soft` (Delikatny), `bell` (Dzwonek), `drop` (Kropla) |
 | `memoryDays` | `30` | Pamięć odpowiedzi czatu w dniach: `0` (wyłączona), `7`, `30`, `90` |
 | `visualizer` | `"wave"` | Wizualizacja czytania: `off`, `wave` (Fala), `bars` (Słupki), `dot` (Kropka) |
-| `visualizerColor` | `"orange"` | Kolor wizualizacji: `orange`, `white`, `blue`, `green`, `purple`, `pink`, `red`, `yellow` albo własny `#hex` |
+| `visualizerColor` | `"orange"` | Kolor wizualizacji: `orange`, `white`, `blue`, `teal`, `green`, `lime`, `purple`, `pink`, `red`, `yellow` albo własny `#hex` |
 | `defaultVoices` | Lessac, Gosia, MC Speech | Głosy pobierane przy pierwszym uruchomieniu (klucze z katalogu Piper) |
 
 **Jak Echo wybiera głos bez ustawień:** w trybie Auto rozpoznaje język odpowiedzi spośród języków, które mają zainstalowany głos (polski tekst - polski głos, angielski - angielski). Gdy nie da się go rozpoznać, bierze `fallbackLanguage`, a gdy ten nie ma głosu - pierwszy zainstalowany język. W obrębie języka czyta głosem wybranym w ⚙, a bez wyboru - pierwszym zainstalowanym (dla polskiego Gosia, dla angielskiego Lessac). Wiadomości, które przyjdą, zanim pobiorą się głosy, czekają i zostaną przeczytane, gdy tylko pierwszy głos będzie gotowy.
@@ -118,7 +120,7 @@ W ⚙ na liście **Dźwięki** wybierzesz zestaw: **Delikatny** (domyślny), **D
 
 ### Wizualizacja
 
-W trakcie czytania, w miejscu tekstu stanu, pokazuje się mała animacja w kolorze logo, która reaguje na **prawdziwą głośność czytanej mowy** - pauzy, akcenty, końce zdań. W ⚙ → **Wizualizacja**: **Fala** (domyślnie; płynnie wygasa przy brzegach), **Słupki**, **Kropka** (najbardziej dyskretna) albo **Wyłączona**, a obok **Kolor**: pomarańczowy z logo (domyślnie), biały, niebieski, zielony, fioletowy, różowy, czerwony lub żółty.
+W trakcie czytania, w miejscu tekstu stanu, pokazuje się mała animacja w kolorze logo, która reaguje na **prawdziwą głośność czytanej mowy** - pauzy, akcenty, końce zdań. W ⚙ → **Wizualizacja**: **Fala** (domyślnie; płynnie wygasa przy brzegach), **Słupki**, **Kropka** (najbardziej dyskretna) albo **Wyłączona**, a obok **Kolor**: pomarańczowy z logo (domyślnie), biały, niebieski, morski, zielony, limonkowy, fioletowy, różowy, czerwony lub żółty.
 
 Siłę amplitudy każdego efektu (jak bardzo reaguje na głośność) ustawisz w `hooks/config.ts`: `VISUAL_GAIN = { wave: 1.0, bars: 1.0, dot: 1.0 }` - powyżej 1 wzmacnia, poniżej 1 łagodzi. Rozmiar: `VISUAL_SIZE = { wave: 80, bars: 80, dot: 10 }` (fala i słupki - szerokość w pikselach, kropka - największa średnica). Szybkość animacji: `VISUAL_FPS = { wave: 20, bars: 30, dot: 20 }` (klatki na sekundę, najwyżej 30 - tyle razy na sekundę serwer mierzy głośność), a `VISUAL_BAR_JITTER` to drobne drgania słupków, dzięki którym ruszają się także przy głośnej mowie. Tam też jest lista kolorów (`VISUAL_COLORS`).
 

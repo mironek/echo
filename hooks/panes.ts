@@ -2,11 +2,16 @@
 
 import type { EngineInterface } from 'claude-code'
 
-import { HELP_FILE_NAME, HELP_PANE_ID, LANGUAGES_PANE_ID, SETTINGS_PANE_ID } from './config'
-import { t } from './i18n'
+import { HELP_FILE_NAME, HELP_FILES_BY_LANGUAGE, HELP_PANE_ID, LANGUAGES_PANE_ID, SETTINGS_PANE_ID } from './config'
+import { t, uiLanguage } from './i18n'
 import { refreshCatalog } from './server'
 import { openInSystem, pluginEnv } from './setup'
 import { applyUiLanguage, readIsSettingsOpen, writeSettingsOpen } from './state'
+
+/** Plik pomocy w języku interfejsu: np. README.pl.md dla polskiego, README.md (angielski) dla pozostałych. */
+export function helpFileName(): string {
+  return HELP_FILES_BY_LANGUAGE[uiLanguage()] ?? HELP_FILE_NAME
+}
 
 /** Otwiera panel pomocy z README wtyczki. */
 export async function openHelpPane($: EngineInterface): Promise<void> {
@@ -17,7 +22,8 @@ export async function openHelpPane($: EngineInterface): Promise<void> {
 /** Otwiera README w domyślnej aplikacji do plików .md. */
 export async function openHelpFile($: EngineInterface): Promise<void> {
   const { root } = await pluginEnv($)
-  await openInSystem($, `${root}/${HELP_FILE_NAME}`)
+  await applyUiLanguage($)
+  await openInSystem($, `${root}/${helpFileName()}`)
 }
 
 /** Otwiera panel instalowania i usuwania języków. */
