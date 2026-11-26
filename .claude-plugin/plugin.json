@@ -1,0 +1,10 @@
+{
+  "name": "echo",
+  "version": "0.9.1",
+  "description": "Czyta odpowiedzi Claude'a na głos lokalnym, neuronowym głosem Piper: sekcje, tempo, tryb Live, wiele języków. Bez chmury.",
+  "author": { "name": "Mirosław Sokół" },
+  "icon": "./.claude-plugin/icon.png",
+  "license": "MIT",
+  "keywords": ["tts", "text-to-speech", "piper", "voice", "accessibility", "read-aloud"],
+  "types": "./types/index.d.ts"
+}

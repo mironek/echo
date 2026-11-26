@@ -1,0 +1,16 @@
+{
+  "name": "echo",
+  "owner": {
+    "name": "Mirosław Sokół"
+  },
+  "metadata": {
+    "description": "Echo: czytanie odpowiedzi Claude'a na głos lokalnym głosem Piper."
+  },
+  "plugins": [
+    {
+      "name": "echo",
+      "source": "./",
+      "description": "Czyta odpowiedzi Claude'a na głos lokalnym głosem Piper."
+    }
+  ]
+}

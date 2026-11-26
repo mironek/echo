@@ -1,0 +1,31 @@
+{
+  "name": "claude-echo-tts",
+  "version": "0.9.1",
+  "description": "Echo: wtyczka Claude Code, która czyta odpowiedzi Claude'a na głos lokalnym, neuronowym głosem Piper.",
+  "license": "MIT",
+  "author": "Mirosław Sokół",
+  "keywords": ["claude-code", "claude-code-plugin", "tts", "text-to-speech", "piper", "voice"],
+  "files": [
+    ".claude-plugin/plugin.json",
+    ".claude-plugin/marketplace.json",
+    "hooks/",
+    "types/",
+    "server/main.py",
+    "server/requirements.txt",
+    "server/echo_tts/*.py",
+    "README.md",
+    "LICENSE",
+    "startup.json",
+    ".claude-plugin/icon.png",
+    "assets/",
+    "tsconfig.json"
+  ],
+  "scripts": {
+    "typecheck": "tsc -p .",
+    "validate": "claude plugin validate .",
+    "check": "npm run typecheck && npm run validate"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0"
+  }
+}

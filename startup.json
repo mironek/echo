@@ -1,0 +1,13 @@
+{
+  "_info": "Ustawienia pierwszej instalacji Echo. Działają tylko dla ustawień, których użytkownik jeszcze nie zmienił (nowa instalacja). Opis kluczy: README.md, sekcja „Ustawienia startowe”.",
+  "uiLanguage": "en",
+  "readingMode": "live",
+  "voice": "auto",
+  "fallbackLanguage": "system",
+  "speed": 1.0,
+  "sounds": "soft",
+  "memoryDays": 30,
+  "visualizer": "wave",
+  "visualizerColor": "orange",
+  "defaultVoices": ["en_US-lessac-medium", "pl_PL-gosia-medium", "pl_PL-mc_speech-medium"]
+}
