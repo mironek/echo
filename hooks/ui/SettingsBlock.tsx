@@ -26,7 +26,7 @@ function markDefault(label: string, isDefault: boolean): string {
 
 /**
  * Opcje listy „Głos”: Auto, potem każdy język (a przy kilku modelach osobno każdy model; lektorzy są na liście
- * „Lektor”). Kropka ● oznacza domyślny głos języka — ten, którego używa Auto.
+ * „Lektor”). Kropka ● oznacza domyślny głos języka - ten, którego używa Auto.
  */
 function voiceOptions(s: EchoStatus): { value: string; label: string }[] {
   const options = [{ value: 'auto', label: t('settings.voiceAuto') }]

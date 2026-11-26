@@ -2,9 +2,8 @@
 
 import type { ElementTable, EngineInterface } from 'claude-code'
 
-import { HELP_FILE_NAME } from '../config'
 import { t } from '../i18n'
-import { openHelpFile } from '../panes'
+import { helpFileName, openHelpFile } from '../panes'
 import { pluginEnv } from '../setup'
 import { applyUiLanguage } from '../state'
 
@@ -15,13 +14,13 @@ export async function renderHelpPane($: EngineInterface, ui: ElementTable) {
   const { root } = await pluginEnv($)
   let text: string
   try {
-    text = await $.fs.read(`${root}/${HELP_FILE_NAME}`)
+    text = await $.fs.read(`${root}/${helpFileName()}`)
   } catch {
-    return <Text dimColor>{t('help.fileMissing', { file: HELP_FILE_NAME })}</Text>
+    return <Text dimColor>{t('help.fileMissing', { file: helpFileName() })}</Text>
   }
   return (
     <Box flexDirection="column" gap={1}>
-      <Button key="open-file" label={t('help.openFile', { file: HELP_FILE_NAME })} onPress={() => void openHelpFile($)} />
+      <Button key="open-file" label={t('help.openFile', { file: helpFileName() })} onPress={() => void openHelpFile($)} />
       <Markdown key="help-text" text={text} />
     </Box>
   )

@@ -5,231 +5,240 @@
 
 # Echo
 
-Wtyczka do Claude Code (terminal i aplikacja desktopowa Claude, zakładka Code), która **czyta odpowiedzi Claude'a na głos** lokalnymi głosami neuronowymi [Piper](https://github.com/OHF-Voice/piper1-gpl). Mowa powstaje w całości na Twoim komputerze: tekst nie jest nigdzie wysyłany.
+**English** | [Polski](README.pl.md)
 
-Działa na Windows, macOS i Linuksie.
+A Claude Code plugin (terminal and the Claude desktop app, Code tab) that **reads Claude's replies aloud** with local neural [Piper](https://github.com/OHF-Voice/piper1-gpl) voices. Speech is generated entirely on your computer: your text is never sent anywhere.
 
-## Instalacja
+Works on Windows, macOS and Linux (tested on Windows; macOS and Linux are supported but not tested yet).
 
-**Wymagania:** Python 3.9 lub nowszy ([python.org](https://www.python.org/downloads/)). Na Linuksie dodatkowo odtwarzacz dźwięku: `paplay` (PulseAudio/PipeWire), `pw-play`, `aplay` albo `ffplay`.
+## Installation
 
-W Claude Code (terminal):
+**Requirements:** Python 3.9 or newer ([python.org](https://www.python.org/downloads/)). On Linux you also need an audio player: `paplay` (PulseAudio/PipeWire), `pw-play`, `aplay` or `ffplay`.
+
+In Claude Code (terminal):
 
 ```
 /plugin install echo --marketplace mironek/echo
 ```
 
-Z wiersza poleceń:
+From the command line:
 
 ```
 claude plugin install echo --marketplace mironek/echo
 ```
 
-W aplikacji desktopowej: **+** obok pola wiadomości → **Plugins** → **Add marketplace**, wpisz `mironek/echo`, potem **Add plugin** przy Echo.
+In the desktop app: **+** next to the message box → **Plugins** → **Add marketplace**, enter `mironek/echo`, then **Add plugin** next to Echo.
 
-### Pierwsze uruchomienie
+### First run
 
-Echo samo przygotowuje wszystko w folderze danych wtyczki; na pasku widać postęp:
+Echo sets everything up by itself in the plugin's data folder; the bar shows the progress:
 
-1. szuka Pythona i tworzy dla siebie osobne środowisko (venv),
-2. instaluje Piper (`pip install piper-tts`): to trwa kilka minut, tylko za pierwszym razem,
-3. uruchamia lokalny serwer mowy,
-4. pobiera podstawowy pakiet głosów: angielski (Lessac) i polskie (Gosia, MC Speech), po ok. 60 MB każdy.
+1. it finds Python and creates its own environment (venv),
+2. it installs Piper (`pip install piper-tts`): this takes a few minutes, only the first time,
+3. it starts the local speech server,
+4. it downloads the basic voice pack: English (Lessac) and Polish (Gosia, MC Speech), about 60 MB each.
 
-Od razu po instalacji: interfejs po angielsku, tryb **Live**, Głos **Auto**, dźwięki **Delikatny**, pamięć **30 dni** — wszystko to ustala plik `startup.json` (niżej).
+Right after installation: English interface, **Live** mode, Voice **Auto**, **Soft** sounds, **30 days** of memory - all of it is set by the `startup.json` file (below).
 
-Jeśli czegoś brakuje (np. Pythona), pasek pokaże komunikat i przycisk **Uruchom**, żeby spróbować ponownie.
+If something is missing (for example Python), the bar shows a message and a **Start** button to try again.
 
-### Ustawienia startowe (`startup.json`)
+### Startup settings (`startup.json`)
 
-Plik `startup.json` w folderze wtyczki ustala, jak Echo działa zaraz po instalacji — bez żadnej konfiguracji. Zmiana pliku działa dla ustawień, których użytkownik jeszcze nie zmienił (czyli przy nowej instalacji); swoje wybory użytkownik zmienia w ⚙. Klucze zaczynające się od `_` to komentarze.
+The `startup.json` file in the plugin folder sets how Echo works right after installation, with no configuration at all. Changes to the file apply to settings the user has not changed yet (a new installation); users change their own choices in ⚙. Keys starting with `_` are comments.
 
-| Klucz | Domyślnie | Znaczenie |
+| Key | Default | Meaning |
 |---|---|---|
-| `uiLanguage` | `"en"` | Język interfejsu Echo: `en`, `pl`, `de`, `fr`, `it`, `es`, `pt`, `ru`, `uk`, `ja`, `zh` |
-| `readingMode` | `"live"` | Tryb czytania: `manual` (Ręcznie), `final` (Wynik; dawne `auto` też działa), `live` |
-| `voice` | `"auto"` | Głos: `auto` (rozpoznaje język odpowiedzi) albo kod języka, np. `pl` |
-| `fallbackLanguage` | `"system"` | Język, gdy Auto nie rozpozna tekstu: `system` (język systemu, jeśli ma zainstalowany głos) albo kod języka |
-| `speed` | `1.0` | Tempo czytania, 0.8–2.0 |
-| `sounds` | `"soft"` | Dźwięki: `off`, `soft` (Delikatny), `bell` (Dzwonek), `drop` (Kropla) |
-| `memoryDays` | `30` | Pamięć odpowiedzi czatu w dniach: `0` (wyłączona), `7`, `30`, `90` |
-| `visualizer` | `"wave"` | Wizualizacja czytania: `off`, `wave` (Fala), `bars` (Słupki), `dot` (Kropka) |
-| `visualizerColor` | `"orange"` | Kolor wizualizacji: `orange`, `white`, `blue`, `green`, `purple`, `pink`, `red`, `yellow` albo własny `#hex` |
-| `defaultVoices` | Lessac, Gosia, MC Speech | Głosy pobierane przy pierwszym uruchomieniu (klucze z katalogu Piper) |
+| `uiLanguage` | `"en"` | Echo interface language: `en`, `pl`, `de`, `fr`, `it`, `es`, `pt`, `ru`, `uk`, `ja`, `zh` |
+| `readingMode` | `"live"` | Reading mode: `manual`, `final` (the older `auto` also works), `live` |
+| `voice` | `"auto"` | Voice: `auto` (detects the language of the reply) or a language code, for example `pl` |
+| `fallbackLanguage` | `"system"` | Language used when Auto cannot detect the text: `system` (the system language, if it has an installed voice) or a language code |
+| `speed` | `1.0` | Reading speed, 0.8-2.0 |
+| `sounds` | `"soft"` | Sounds: `off`, `soft`, `bell`, `drop` |
+| `memoryDays` | `30` | How long to keep each chat's answer, in days: `0` (off), `7`, `30`, `90` |
+| `visualizer` | `"wave"` | Reading visualizer: `off`, `wave`, `bars`, `dot` |
+| `visualizerColor` | `"orange"` | Visualizer color: `orange`, `white`, `blue`, `teal`, `green`, `lime`, `purple`, `pink`, `red`, `yellow` or your own `#hex` |
+| `defaultVoices` | Lessac, Gosia, MC Speech | Voices downloaded on first run (keys from the Piper catalog) |
 
-**Jak Echo wybiera głos bez ustawień:** w trybie Auto rozpoznaje język odpowiedzi spośród języków, które mają zainstalowany głos (polski tekst — polski głos, angielski — angielski). Gdy nie da się go rozpoznać, bierze `fallbackLanguage`, a gdy ten nie ma głosu — pierwszy zainstalowany język. W obrębie języka czyta głosem wybranym w ⚙, a bez wyboru — pierwszym zainstalowanym (dla polskiego Gosia, dla angielskiego Lessac). Wiadomości, które przyjdą, zanim pobiorą się głosy, czekają i zostaną przeczytane, gdy tylko pierwszy głos będzie gotowy.
+**How Echo picks a voice with no settings:** in Auto mode it detects the language of the reply among the languages that have an installed voice (Polish text - Polish voice, English text - English voice). When the language cannot be detected, it uses `fallbackLanguage`, and when that has no voice - the first installed language. Within a language it reads with the voice chosen in ⚙, or without a choice - the first installed one (Gosia for Polish, Lessac for English). Messages that arrive before the voices are downloaded wait and are read as soon as the first voice is ready.
 
-### Instalacja z npm
+### Installing from npm
 
-Pakiet `claude-echo-tts` zawiera tę samą wtyczkę. Marketplace może wskazywać na niego zamiast na repozytorium:
+The `claude-echo-tts` package contains the same plugin. A marketplace can point to it instead of the repository:
 
 ```json
 {
   "name": "echo-npm",
-  "owner": { "name": "<autor>" },
+  "owner": { "name": "<author>" },
   "plugins": [{ "name": "echo", "source": { "source": "npm", "package": "claude-echo-tts" } }]
 }
 ```
 
-## Pasek Echo
+## The Echo bar
 
-Pasek nad polem wiadomości:
+The bar above the message box:
 
-| Element | Działanie |
+| Element | What it does |
 |---|---|
-| ▶ 3/12 / ⏸ 3/12 | Czyta bieżącą sekcję od jej początku / pauzuje ją; liczby to numer sekcji i liczba wszystkich sekcji |
-| ❮ i ❯ | Poprzednia i następna sekcja; w trakcie czytania od razu ją czytają. Na pierwszej i ostatniej sekcji są wyszarzone |
-| ⏹ | Zatrzymuje czytanie i wraca do pierwszej sekcji (wyszarzony, gdy nic nie jest czytane) |
-| Tempo (np. 1.0×) | Szybkość czytania, 0.8× – 2.0×; zmiana działa od razu, w trakcie czytania |
-| Tryb (Ręcznie / Wynik / Na żywo) | Kiedy Echo czyta samo — opis w „Kiedy Echo czyta” poniżej |
-| Status (po prawej, przed ⚙) | W trakcie czytania animowana wizualizacja mowy (Fala, Słupki albo Kropka — wybór w ⚙ → Wizualizacja); poza czytaniem szary tekst: pauza, gotowy, instalacja głosu |
-| ⚙ | Otwiera/zamyka panel **Ustawienia Echo** obok czatu (z własnym przewijaniem, pasek zostaje na miejscu): Głos, Lektor, + (dodaj język), Interfejs, Dźwięki, Wizualizacja, Kolor, Pamięć |
-| Głos | **Auto** (rozpoznaje język odpowiedzi) albo konkretny język i głos, np. „Polski: Bass”; zmiana działa od razu |
-| Lektor | Pojawia się obok listy Głos, gdy wybrany model ma kilku lektorów (np. Semaine: Obadiah, Poppy…) |
-| + (obok Głos) | Przechodzi do panelu języków (panel ustawień się zamyka; wrócisz do niego przez ⚙) |
-| Interfejs | Język paska, ustawień i komunikatów Echo |
-| ? | Otwiera tę pomoc |
+| ▶ 3/12 / ⏸ 3/12 | Reads the current section from its start / pauses it; the numbers are the section number and the total number of sections |
+| ❮ and ❯ | Previous and next section; while reading, they read it right away. Dimmed on the first and last section |
+| ⏹ | Stops reading and goes back to the first section (dimmed when nothing is being read) |
+| Speed (e.g. 1.0×) | Reading speed, 0.8× - 2.0×; the change applies immediately, even mid-sentence |
+| Mode (Manual / Final / Live) | When Echo reads on its own - see "When Echo reads" below |
+| Status (right, before ⚙) | While reading, an animated speech visualizer (Wave, Bars or Dot - choose in ⚙ → Visualizer); otherwise grey text: paused, ready, installing a voice |
+| ⚙ | Opens/closes the **Echo settings** pane next to the chat (it scrolls on its own, the bar stays in place): Voice, Speaker, + (add a language), Interface, Sounds, Visualizer, Color, Memory |
+| Voice | **Auto** (detects the language of the reply) or a specific language and voice, for example "Polish: Bass"; the change applies immediately |
+| Speaker | Appears next to Voice when the chosen model has several speakers (for example Semaine: Obadiah, Poppy…) |
+| + (next to Voice) | Switches to the languages pane (the settings pane closes; reopen it with ⚙) |
+| Interface | Language of the bar, settings and Echo messages |
+| ? | Opens this help |
 
-### Jak Echo zbiera tekst
+### How Echo collects text
 
-Każde Twoje pytanie zaczyna od nowa: Echo przerywa czytanie, czyści poprzednią odpowiedź (licznik pokazuje 0/0, przyciski są nieaktywne) i czeka na wiadomości od Claude'a. Wiadomości, które trafiają do Claude'a w trakcie jego pracy (powiadomienia, przypomnienia systemowe, pytania dopisane do kolejki), nie czyszczą bieżącej odpowiedzi. Każda kolejna wiadomość Claude'a jest dzielona na **sekcje** i dopisywana na koniec kolejki do przeczytania; licznik rośnie na bieżąco.
+Every question you send starts fresh: Echo stops reading, clears the previous answer (the counter shows 0/0, the buttons are inactive) and waits for Claude's messages. Messages delivered to Claude while it works (notifications, system reminders, queued questions) do not clear the current answer. Each of Claude's messages is split into **sections** and added to the end of the reading queue; the counter grows as they arrive.
 
-Sekcja to akapit. Krótkie akapity (np. nagłówki) łączą się z następnym, a bardzo długie dzielą się na zdania. Bloki kodu, adresy linków i formatowanie są pomijane. Wiadomości subagentów nie są czytane.
+A section is a paragraph. Short paragraphs (such as headings) are joined with the next one, very long ones are split into sentences. Code blocks, link addresses and formatting are skipped. Subagent messages are not read.
 
-### Kiedy Echo czyta
+### When Echo reads
 
-| Tryb | Co się dzieje |
+| Mode | What happens |
 |---|---|
-| **Na żywo** (Live) | Każda wiadomość Claude'a jest czytana od razu, gdy się pojawi. Jeśli w trakcie czytania przyjdzie następna, Echo przeczyta ją po skończeniu bieżącej — po kolei, bez pomijania. Kolejne wiadomości oddziela cichy sygnał |
-| **Wynik** | W trakcie pracy Claude'a nic nie jest czytane samo, ale sekcje się zbierają i możesz je puścić przyciskiem ▶. Gdy Claude skończy, Echo zaczyna czytać od **pierwszej sekcji ostatniej odpowiedzi** — tekstu napisanego po ostatnim użyciu narzędzia, czyli podsumowania z wynikami (bez narzędzi: od sekcji 1). Wcześniejsze sekcje zostają: wrócisz do nich przyciskiem ❮. Przerwana odpowiedź (np. gdy zatrzymasz Claude'a) nie jest czytana sama |
-| **Ręcznie** | Echo nic nie czyta samo. ▶ czyta od bieżącej sekcji do końca kolejki — w każdej chwili, gdy są sekcje, także w trakcie pracy Claude'a |
+| **Live** | Every message from Claude is read as soon as it appears. If another one arrives while reading, Echo reads it after the current one - in order, without skipping. A quiet sound separates the messages |
+| **Final** | While Claude works, nothing is read on its own, but the sections are collected and you can play them with ▶. When Claude finishes, Echo starts reading from the **first section of the final answer** - the text written after the last tool use, that is the summary with the results (with no tools: from section 1). Earlier sections stay: go back to them with ❮. An interrupted answer (for example when you stop Claude) is not read on its own |
+| **Manual** | Echo never reads on its own. ▶ reads from the current section to the end of the queue - at any time when there are sections, also while Claude is working |
 
-Po pauzie (⏸) nowe wiadomości tylko dopisują się do kolejki; czytanie wznowisz przyciskiem ▶. Ostatnia odpowiedź zostaje zapamiętana osobno dla każdego czatu (zob. „Pamięć odpowiedzi” niżej).
+After a pause (⏸) new messages are only added to the queue; resume with ▶. The last answer is remembered separately for each chat (see "Answer memory" below).
 
-### Dźwięki
+### Sounds
 
-Dźwięki oznaczają **początek i koniec czytania**, a nie każdą sekcję:
+Sounds mark the **start and end of reading**, not every section:
 
-- **początek** (rosnące tony) — Echo zaczyna czytać po ciszy,
-- **koniec** (opadające tony) — kolejka się skończyła albo czytanie przerwała pauza lub stop,
-- **między wiadomościami** (jeden, cichszy ton) — tylko w trybie Live, gdy Echo przechodzi do następnej wiadomości Claude'a.
+- **start** (rising tones) - Echo starts reading after silence,
+- **end** (falling tones) - the queue is finished or reading was paused or stopped,
+- **between messages** (a single, quieter tone) - only in Live mode, when Echo moves on to Claude's next message.
 
-W ⚙ na liście **Dźwięki** wybierzesz zestaw: **Delikatny** (domyślny), **Dzwonek** lub **Kropla** — po wyborze usłyszysz próbkę — albo **Wyłącz**, żeby czytać bez dźwięków. Pliki `sounds/<zestaw>/start.wav`, `end.wav` i `between.wav` leżą w folderze danych wtyczki; serwer tworzy brakujące sam, a możesz je podmienić na własne.
+In ⚙, the **Sounds** list lets you choose a set: **Soft** (default), **Bell** or **Drop** - you hear a sample when you pick one - or **Off** to read without sounds. The files `sounds/<set>/start.wav`, `end.wav` and `between.wav` are in the plugin's data folder; the server creates missing ones itself, and you can replace them with your own.
 
-### Wizualizacja
+### Visualizer
 
-W trakcie czytania, w miejscu tekstu stanu, pokazuje się mała animacja w kolorze logo, która reaguje na **prawdziwą głośność czytanej mowy** — pauzy, akcenty, końce zdań. W ⚙ → **Wizualizacja**: **Fala** (domyślnie; płynnie wygasa przy brzegach), **Słupki**, **Kropka** (najbardziej dyskretna) albo **Wyłączona**, a obok **Kolor**: pomarańczowy z logo (domyślnie), biały, niebieski, zielony, fioletowy, różowy, czerwony lub żółty.
+While reading, a small animation in the logo color appears in place of the status text and reacts to the **actual loudness of the speech** - pauses, stresses, sentence endings. In ⚙ → **Visualizer**: **Wave** (default; fades out smoothly at the edges), **Bars**, **Dot** (the most discreet) or **Off**, and next to it **Color**: the logo orange (default), white, blue, teal, green, lime, purple, pink, red or yellow.
 
-Siłę amplitudy każdego efektu (jak bardzo reaguje na głośność) ustawisz w `hooks/config.ts`: `VISUAL_GAIN = { wave: 1.0, bars: 1.0, dot: 1.0 }` — powyżej 1 wzmacnia, poniżej 1 łagodzi. Rozmiar: `VISUAL_SIZE = { wave: 80, bars: 80, dot: 10 }` (fala i słupki — szerokość w pikselach, kropka — największa średnica). Szybkość animacji: `VISUAL_FPS = { wave: 20, bars: 30, dot: 20 }` (klatki na sekundę, najwyżej 30 — tyle razy na sekundę serwer mierzy głośność), a `VISUAL_BAR_JITTER` to drobne drgania słupków, dzięki którym ruszają się także przy głośnej mowie. Tam też jest lista kolorów (`VISUAL_COLORS`).
+Fine-tuning is in `hooks/config.ts`:
 
-Prawie nic nie kosztuje: serwer liczy obwiednię głośności sekcji raz (ok. 20 ms), a mod wysyła jeden obrazek SVG na sekcję. Animację odtwarza sama aplikacja, płynnie, bez przerysowywania paska klatka po klatce. W terminalu (bez grafiki) zamiast animacji jest tekst „czyta · język”.
+- `VISUAL_GAIN` - how strongly each effect reacts to loudness (above 1 amplifies, below 1 softens),
+- `VISUAL_SIZE` - wave and bars: width in pixels, dot: maximum diameter,
+- `VISUAL_FPS` - animation frames per second (at most 30 - the server measures loudness 30 times a second),
+- `VISUAL_BAR_JITTER` - small, quick movements of the bars, so they keep moving even when the speech is loud,
+- `VISUAL_COLORS` - the list of colors.
 
-### Pamięć odpowiedzi
+It costs almost nothing: the server computes the loudness envelope of a section once (about 20 ms), and the plugin sends one SVG image per section. The app plays the animation by itself, smoothly, without redrawing the bar frame by frame. In the terminal (no graphics) the status text "reading · language" is shown instead.
 
-Echo pamięta **ostatnią odpowiedź osobno dla każdego czatu** (wątku w historii Claude Code — w aplikacji, terminalu i VS Code). Gdy wrócisz do czatu, ▶ odtworzy jego ostatnią odpowiedź, a nie odpowiedź z innego czatu. Na czat przypada tylko jedna odpowiedź: nowe pytanie zastępuje poprzednią.
+### Answer memory
 
-Zapisywany jest wyłącznie **tekst** odpowiedzi (mały plik JSON na czat, w folderze `history/` danych wtyczki), nie dźwięk: sekcje są zamieniane na mowę na bieżąco, do plików tymczasowych usuwanych zaraz po przeczytaniu.
+Echo remembers **the last answer separately for each chat** (each conversation in the Claude Code history - in the app, the terminal and VS Code). When you come back to a chat, ▶ plays its last answer, not an answer from another chat. Each chat keeps one answer: a new question replaces the previous one.
 
-W ⚙ → **Pamięć**:
+Only the **text** of the answer is saved (a small JSON file per chat, in the `history/` folder of the plugin data), not the audio: sections are turned into speech on the fly, into temporary files deleted right after they are read.
 
-- **7 / 30 / 90 dni** — jak długo trzymać odpowiedź czatu od jego ostatniej zmiany (domyślnie 30 dni). Starsze są usuwane automatycznie: przy starcie serwera i raz na dobę. Wrócisz do projektu po 10–15 dniach — odsłuchasz, o czym była mowa; po terminie odpowiedź znika.
-- **Wyłączona** — nic nie trafia na dysk, a zapisane już odpowiedzi są od razu usuwane. Echo pamięta odpowiedzi tylko do zamknięcia serwera mowy; po ponownym uruchomieniu każdy czat zaczyna od zera.
-- **Wyczyść wszystko** — natychmiast usuwa zapamiętane odpowiedzi wszystkich czatów (z dysku i z pamięci) i zatrzymuje czytanie.
+In ⚙ → **Memory**:
 
-Echo służy do słuchania na bieżąco, nie do archiwizowania rozmów — dlatego trzyma tylko ostatnią odpowiedź i sprząta po sobie.
+- **7 / 30 / 90 days** - how long to keep a chat's answer after its last change (30 days by default). Older ones are deleted automatically: when the server starts and once a day. Come back to a project after 10-15 days and you can listen to what it was about; after that the answer is gone.
+- **Off** - nothing is written to disk, and answers already saved are deleted right away. Echo remembers answers only until the speech server stops; after a restart every chat starts from scratch.
+- **Clear all** - immediately deletes the remembered answers of all chats (from disk and memory) and stops reading.
 
-Gdy jeden czat czyta, a w innym Claude właśnie odpowiada, odpowiedź drugiego czatu jest tylko zapisywana (nie przerywa czytania); posłuchasz jej przyciskiem ▶ w tamtym czacie. Naciśnięcie ▶, ❮ ❯ lub ⏹ w czacie przełącza Echo na ten czat.
+Echo is for listening as you go, not for archiving conversations - that is why it keeps only the last answer and cleans up after itself.
 
-### Język i głos
+When one chat is reading and Claude is answering in another, the other chat's answer is only saved (it does not interrupt the reading); listen to it with ▶ in that chat. Pressing ▶, ❮ ❯ or ⏹ in a chat switches Echo to that chat.
 
-W ⚙ lista **Głos** ustala, w jakim języku i jakim głosem Echo czyta:
+### Language and voice
 
-- **Auto** — Echo rozpoznaje język każdej odpowiedzi i czyta ją głosem dla tego języka,
-- **konkretny język i głos** (np. „Polski: Bass”) — wszystko jest czytane tym głosem, także tekst w innym języku.
+In ⚙, the **Voice** list sets the language and voice Echo reads with:
 
-Zmiana działa od razu, także w trakcie czytania.
+- **Auto** - Echo detects the language of each reply and reads it with a voice for that language,
+- **a specific language and voice** (for example "Polish: Bass") - everything is read with that voice, including text in another language.
 
-**Domyślny głos dla Auto:** głos wybrany dla języka zostaje zapamiętany. Wybierz np. „Angielski: Ryan”, a potem wróć na „Auto” — od tej chwili Auto czyta angielskie odpowiedzi Ryanem (i tak osobno dla każdego języka). Bez takiego wyboru Auto używa pierwszego zainstalowanego głosu języka. Na listach Głos i Lektor domyślny głos języka (i lektor) jest oznaczony kropką ◉.
+The change applies immediately, even while reading.
 
-**Język bez głosu:** gdy odpowiedź jest w piśmie, którego żaden zainstalowany głos nie przeczyta (japoński, chiński, koreański, cyrylica, grecki, arabski, hebrajski, hindi, tajski, gruziński), Echo nie czyta jej obcym głosem — pasek pokazuje „brak głosu: <język>”. Po zainstalowaniu głosu w panelu **+** odpowiedź przeczyta się od razu. Pojedyncze obce słowo w zdaniu nie zmienia języka całego tekstu. Przycisk **+** obok listy otwiera panel języków, w którym dodasz nowy język lub głos.
+**Default voice for Auto:** the voice you choose for a language is remembered. Choose, for example, "English: Ryan" and then go back to "Auto" - from now on Auto reads English replies with Ryan (and so on, separately for each language). Without such a choice Auto uses the first installed voice of the language. In the Voice and Speaker lists the default voice (and speaker) of a language is marked with ◉.
 
-Lista **Interfejs** zmienia język samego Echo (pasek, ustawienia, panele, komunikaty, słowa komendy `/echo`): angielski (domyślny), polski, niemiecki, francuski, włoski, hiszpański, portugalski, rosyjski, ukraiński, japoński i chiński. Wybór zostaje zapamiętany na kolejne sesje.
+**A language with no voice:** when a reply is written in a script that no installed voice can read (Japanese, Chinese, Korean, Cyrillic, Greek, Arabic, Hebrew, Hindi, Thai, Georgian), Echo does not read it with a foreign voice - the bar shows "no voice: <language>". Once you install a voice in the **+** pane, the reply is read right away. A single foreign word in a sentence does not change the language of the whole text.
 
-Język odpowiedzi Claude'a ustawiasz w samym Claude Code (`"language"` w `settings.json`); Echo tylko czyta to, co Claude napisze.
+The **Interface** list changes the language of Echo itself (bar, settings, panes, messages, `/echo` command words): English (default), Polish, German, French, Italian, Spanish, Portuguese, Russian, Ukrainian, Japanese and Chinese. The choice is remembered for later sessions.
 
-### Co Echo dopisuje do instrukcji Claude'a
+You set the language of Claude's replies in Claude Code itself (`"language"` in `settings.json`); Echo only reads what Claude writes.
 
-Echo czyta tylko widoczny tekst odpowiedzi (biały), nigdy myślenia Claude'a (szare, zwijane). Żeby nic, co jest do Ciebie, nie trafiło do myślenia, Echo dopisuje do instrukcji systemowych Claude'a jedno krótkie zdanie: wszystko, co jest dla użytkownika — także krótkie komunikaty między krokami — ma być zwykłym tekstem. Nic więcej nie zmienia w zachowaniu Claude'a.
+### What Echo adds to Claude's instructions
 
-Gdy mimo to wiadomość trafi do myślenia, aplikacja i tak pokazuje ją w czacie. Echo rozpoznaje taki fragment: prawdziwe myślenie dociera do wtyczek puste (zaszyfrowane), a fragment widoczny w czacie ma treść. Echo czyta więc bloki myślenia z treścią (bez bloków kodu, do 1500 znaków) jak zwykłe wiadomości; w `reading.log` są oznaczone jako `thinking (live, read)`.
+Echo reads only the visible text of a reply (white), never Claude's thinking (grey, collapsible). So that nothing meant for you ends up in the thinking, Echo adds one short sentence to Claude's system instructions: everything meant for the user - including short updates between steps - must be plain text. It changes nothing else in how Claude behaves.
 
-## Panel języków
+If a message still ends up in the thinking, the app shows it in the chat anyway. Echo recognises such a fragment: real thinking reaches plugins empty (encrypted), while a fragment visible in the chat has content. So Echo reads thinking blocks that have content (without code blocks, up to 1500 characters) like regular messages; in `reading.log` they are marked `thinking (live, read)`.
 
-Lista wszystkich języków z katalogu Piper: zainstalowane na górze, potem alfabetycznie. Po prawej stronie wiersza języka widać, ile ma głosów (i ile z nich jest zainstalowanych, np. „2/5 głosów”).
+## Languages pane
 
-- **▸** — rozwija listę głosów języka: nazwa, region, jakość, rozmiar, liczba lektorów,
-- **◉ / ○** (na początku wiersza pobranego głosu, w linii ze strzałką języka; niepobrane głosy mają w tym miejscu odstęp) — ◉ oznacza domyślny głos języka, którego używa Auto; kliknięcie ○ ustawia ten głos jako domyślny. Przy modelu z wieloma lektorami kropkę ma każdy lektor; kropka przy samym modelu wybiera zapamiętanego lektora albo pierwszego od góry,
-- **Pobierz ⤓** (przy głosie, po prawej) — pobiera ten głos,
-- **Usuń ✕** — usuwa zainstalowany głos,
-- **Pobieram …** — głos się pobiera (kilka pobiera się po kolei),
-- **▸ przy głosie** — model z wieloma lektorami (np. Semaine: Obadiah, Poppy, Prudence, Spike) rozwija listę ich imion. Pobiera się i usuwa cały model naraz, bo wszyscy lektorzy są w jednym pliku.
+A list of all languages in the Piper catalog: installed ones first, then alphabetically. On the right of each language row you can see how many voices it has (and how many of them are installed, for example "2/5 voices").
 
-Głosy pobiera się pojedynczo, nie cały język naraz.
+- **▸** - expands the language's voices: name, region, quality, size, number of speakers,
+- **◉ / ○** (at the start of an installed voice's row, in line with the language arrow; voices that are not installed have a gap there) - ◉ marks the default voice of the language that Auto uses; clicking ○ makes that voice the default. For a model with several speakers every speaker has its own dot; the dot next to the model itself picks the remembered speaker or the first one,
+- **Download ⤓** (next to a voice, on the right) - downloads that voice,
+- **Remove ✕** - removes an installed voice,
+- **Downloading …** - the voice is being downloaded (several download one after another),
+- **▸ next to a voice** - a model with several speakers (for example Semaine: Obadiah, Poppy, Prudence, Spike) lists their names. The whole model is downloaded and removed at once, because all speakers are in one file.
 
-Tryb Auto rozpoznaje: polski, angielski, niemiecki, francuski, włoski, hiszpański, portugalski, czeski, niderlandzki, szwedzki, rosyjski, ukraiński, chiński i japoński. Inne języki wybierz ręcznie.
+Voices are downloaded one by one, not a whole language at once.
 
-## Komendy Echo
+Auto detection recognises: Polish, English, German, French, Italian, Spanish, Portuguese, Czech, Dutch, Swedish, Russian, Ukrainian, Chinese and Japanese. Choose other languages manually.
 
-Wpisz w polu wiadomości. Słowa działają po angielsku i w języku interfejsu (poniżej po polsku; po angielsku: `pause`, `resume`, `next`, `prev`, `stop`, `replay`, `languages`, `restart`, `help`):
+## Echo commands
 
-| Komenda | Działanie |
+Type them in the message box. The words work in English and in the interface language:
+
+| Command | What it does |
 |---|---|
-| `/echo` | Otwiera panel języków |
-| `/echo pauza` | Pauza |
-| `/echo wznow` | Czytanie bieżącej sekcji od początku |
-| `/echo dalej` | Następna sekcja |
-| `/echo wstecz` | Poprzednia sekcja |
+| `/echo` | Opens the languages pane |
+| `/echo pause` | Pause |
+| `/echo resume` | Reads the current section from its start |
+| `/echo next` | Next section |
+| `/echo prev` | Previous section |
 | `/echo stop` | Stop |
-| `/echo powtorz` | Powtórzenie ostatniej odpowiedzi |
-| `/echo restart` | Restart serwera mowy (gdy coś się zawiesi) |
-| `/echo pomoc` | Ta pomoc |
+| `/echo replay` | Reads the last answer again |
+| `/echo languages` | Opens the languages pane |
+| `/echo restart` | Restarts the speech server (if something gets stuck) |
+| `/echo help` | This help |
 
-## Pliki
+## Files
 
-| Miejsce | Zawartość |
+| Location | Contents |
 |---|---|
-| folder wtyczki: `hooks/` | Mod: pasek, panele, komendy (TypeScript) |
-| folder wtyczki: `server/` | Lokalny serwer mowy (Python, 127.0.0.1:59125) |
-| folder danych wtyczki: `venv/` | Python z Piperem |
-| folder danych wtyczki: `voices/` | Pobrane głosy |
-| folder danych wtyczki: `config.json` | Ustawienia: język, tempo, wybrane głosy |
-| folder danych wtyczki: `server.log` | Log serwera (błędy) |
-| folder danych wtyczki: `history/` | Zapamiętana ostatnia odpowiedź każdego czatu (tekst, jeden plik na czat), usuwana po terminie z ⚙ → Pamięć |
-| folder danych wtyczki: `reading.log` | Log czytania: nowe pytanie (reset), każda wiadomość Claude'a i co z nią zrobiono, czytane sekcje, pauzy, zmiany ustawień |
+| plugin folder: `hooks/` | The plugin: bar, panes, commands (TypeScript) |
+| plugin folder: `server/` | Local speech server (Python, 127.0.0.1:59125) |
+| plugin data folder: `venv/` | Python with Piper |
+| plugin data folder: `voices/` | Downloaded voices |
+| plugin data folder: `config.json` | Settings: language, speed, chosen voices |
+| plugin data folder: `server.log` | Server log (errors) |
+| plugin data folder: `history/` | The last answer of each chat (text, one file per chat), deleted after the time set in ⚙ → Memory |
+| plugin data folder: `reading.log` | Reading log: new question (reset), each of Claude's messages and what happened to it, sections read, pauses, settings changes |
 
-Folder danych wtyczki zakłada Claude Code (`CLAUDE_PLUGIN_DATA`); zostaje przy aktualizacji wtyczki.
+The plugin data folder is created by Claude Code (`CLAUDE_PLUGIN_DATA`); it is kept when the plugin is updated.
 
-## Prywatność
+## Privacy
 
-- Serwer mowy nasłuchuje tylko lokalnie (`127.0.0.1`), niedostępny z sieci.
-- Internet jest używany wyłącznie przy instalacji: Piper z PyPI (pierwsze uruchomienie) oraz katalog i głosy z Hugging Face (`rhasspy/piper-voices`).
-- Japońskie głosy przy instalacji doinstalowują moduł wymowy (`pyopenjtalk-plus` z PyPI).
+- The speech server listens only locally (`127.0.0.1`) and cannot be reached from the network.
+- The internet is used only for installation: Piper from PyPI (first run) and the voice catalog and voices from Hugging Face (`rhasspy/piper-voices`).
+- Japanese voices install a pronunciation module when they are installed (`pyopenjtalk-plus` from PyPI).
 
-## Rozwój
+## Development
 
-Struktura kodu:
+Code structure:
 
-- `hooks/` — mod (TypeScript): `register.tsx` podpina zdarzenia, `ui/` to komponenty paska i paneli, `locales/` tłumaczenia (każdy nowy tekst we wszystkich językach), `config.ts` ustawienia, `styles.ts` wspólny wygląd, `visualizer.ts` wizualizacja SVG.
-- `server/` — serwer mowy (Python, Piper): `main.py` i pakiet `echo_tts/`.
-- `startup.json` — ustawienia nowej instalacji.
+- `hooks/` - the plugin (TypeScript): `register.tsx` connects the events, `ui/` holds the bar and pane components, `locales/` the translations (every new text in all languages), `config.ts` the settings, `styles.ts` the shared look, `visualizer.ts` the SVG visualizer.
+- `server/` - the speech server (Python, Piper): `main.py` and the `echo_tts/` package.
+- `startup.json` - settings for a new installation.
 
-Mod w trakcie pracy ładuje się z folderu przez `CLAUDE_CODE_PLUGIN_DIRS` (i `CLAUDE_CODE_PLUGIN_DIR_WATCH=1` — zmiany wczytują się same).
+During development the plugin loads from its folder through `CLAUDE_CODE_PLUGIN_DIRS` (with `CLAUDE_CODE_PLUGIN_DIR_WATCH=1` changes load by themselves).
 
 ```
 npm install
 npm run check
 ```
 
-## Licencja
+## License
 
-Kod Echo: MIT. Echo nie zawiera Pipera: [piper-tts](https://github.com/OHF-Voice/piper1-gpl) (GPL-3.0) instaluje się osobno z PyPI przy pierwszym uruchomieniu. Głosy mają własne licencje — sprawdź kartę głosu na Hugging Face przed użyciem komercyjnym.
+Echo code: MIT. Echo does not include Piper: [piper-tts](https://github.com/OHF-Voice/piper1-gpl) (GPL-3.0) is installed separately from PyPI on first run. Voices have their own licenses - check the voice card on Hugging Face before commercial use.

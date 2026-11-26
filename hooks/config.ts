@@ -20,6 +20,8 @@ export const LANGUAGES_PANE_ID = 'echo-languages'
 export const HELP_PANE_ID = 'echo-help'
 export const SETTINGS_PANE_ID = 'echo-settings'
 export const HELP_FILE_NAME = 'README.md'
+// README w języku interfejsu, gdy istnieje (kod języka → plik); pozostałe języki dostają README.md (po angielsku).
+export const HELP_FILES_BY_LANGUAGE: Record<string, string> = { pl: 'README.pl.md' }
 
 // ------------------------------------------------------------------ pasek ---
 export const PREV_ICON = '❮'
@@ -35,7 +37,7 @@ export const STATUS_WIDTH = 18
 // Gdy wizualizacja jest włączona, miejsce na stan ma szerokość obrazka (VISUAL_SIZE w px przeliczone na znaki),
 // ale nie mniej niż tyle znaków, żeby zmieściły się krótkie teksty („pauza”, „gotowy”).
 export const STATUS_MIN_WIDTH_WITH_VISUAL = 8
-// Ile pikseli CSS ma w przybliżeniu jeden znak (komórka) na pasku — do przeliczania szerokości obrazka.
+// Ile pikseli CSS ma w przybliżeniu jeden znak (komórka) na pasku - do przeliczania szerokości obrazka.
 export const PX_PER_CELL = 8
 // Stała szerokość (w komórkach) miejsca na przycisk ▶/⏸, który stoi przy jego prawej krawędzi:
 // ikona + spacja (2) + „000/000” (7) + margines przycisku (3).
@@ -46,7 +48,7 @@ export const MODE_SELECT_EXTRA_WIDTH = 6
 export const DOWNLOAD_ICON = '⤓'
 // Znacznik domyślnego głosu języka i jego kolor (pomarańczowy z logo Echo).
 export const DEFAULT_MARK = '◉'
-// Przycisk przy pobranym głosie, który nie jest domyślny: pusta „dziurka” — kliknięcie ustawia go jako domyślny.
+// Przycisk przy pobranym głosie, który nie jest domyślny: pusta „dziurka” - kliknięcie ustawia go jako domyślny.
 export const NOT_DEFAULT_MARK = '○'
 // Szerokość (w znakach) kolumny z kropką na początku wiersza głosu; niepobrane głosy mają tu pusty odstęp.
 export const DEFAULT_SLOT_WIDTH = 3.1
@@ -111,11 +113,11 @@ export const READ_ALOUD_PROMPT_SECTION = {
 export const MAX_SPOKEN_THINKING_CHARS = 1500
 
 // ------------------------------------------------------------------ wizualizacja ---
-// Siła amplitudy każdego efektu: mnożnik głośności (1 = bez zmian, >1 wzmacnia — efekt częściej dochodzi
+// Siła amplitudy każdego efektu: mnożnik głośności (1 = bez zmian, >1 wzmacnia - efekt częściej dochodzi
 // do pełnej wysokości, <1 łagodzi). Wynik jest obcinany do pełnej wysokości.
 export const VISUAL_GAIN = { wave: 1, bars: 1, dot: 1 }
 
-// Rozmiar efektów w pikselach CSS: fala i słupki — szerokość całego obrazka, kropka — jej największa średnica.
+// Rozmiar efektów w pikselach CSS: fala i słupki - szerokość całego obrazka, kropka - jej największa średnica.
 export const VISUAL_SIZE = { wave: 70, bars: 70, dot: 12 }
 
 // Szybkość animacji: ile klatek na sekundę ma każdy efekt (więcej = szybsze, drobniejsze zmiany; serwer mierzy

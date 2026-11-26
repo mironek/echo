@@ -1,5 +1,5 @@
 // Wizualizacja czytania: obrazek SVG z animacją (SMIL), który aplikacja odtwarza sama, płynnie i bez kosztu
-// po stronie moda. Serwer podaje obwiednię głośności sekcji (poziomy 0–1 co `step` sekund); mod wpisuje ją
+// po stronie moda. Serwer podaje obwiednię głośności sekcji (poziomy 0-1 co `step` sekund); mod wpisuje ją
 // w klatki animacji, a początek animacji przesuwa (`begin` ujemny) o czas, który już minął od startu sekcji.
 
 import type { EchoVisual } from '../types'
@@ -70,7 +70,7 @@ function framesOf(visual: EchoVisual, gain: number, fps: number, charsPerFrame: 
   return grouped.map(level => Math.min(1, level * gain))
 }
 
-/** Powtarzalna „losowa” liczba 0–1 dla słupka i klatki (drgania słupków bez prawdziwego losowania). */
+/** Powtarzalna „losowa” liczba 0-1 dla słupka i klatki (drgania słupków bez prawdziwego losowania). */
 function noise(bar: number, frame: number): number {
   const value = Math.sin(bar * 12.9898 + frame * 78.233) * 43758.5453
   return value - Math.floor(value)
@@ -91,7 +91,7 @@ function waveSvg(visual: EchoVisual, elapsed: number, color: string): string {
   const frames = framesOf(visual, VISUAL_GAIN.wave, VISUAL_FPS.wave, 8)
   const scale = frames.map(level => `1 ${num(Math.max(MIN_LEVEL, level))}`).join(';')
   const amplitude = VISUAL_HEIGHT / 2 - 1.5
-  /** Ścieżka sinusoidy o danym okresie i fazie (0–1), wygaszona przy brzegach. */
+  /** Ścieżka sinusoidy o danym okresie i fazie (0-1), wygaszona przy brzegach. */
   const path = (period: number, phase: number) => {
     const points: string[] = []
     for (let x = 0; x <= width; x += 2) {
@@ -113,7 +113,7 @@ function waveSvg(visual: EchoVisual, elapsed: number, color: string): string {
     `<path d="${shapes[0]}" fill="none" stroke="${color}" stroke-opacity="${opacity}" stroke-width="${num(width)}" ` +
     `stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" mask="url(#echo-taper-${mask})">` +
     `<animate attributeName="d" values="${shapes.join(';')}" dur="${seconds}s" repeatCount="indefinite"/></path>`
-  /** Fale: pierwsza ze wszystkimi warstwami zwężenia (linia zanika ku brzegom), druga — jedna cienka, przygaszona. */
+  /** Fale: pierwsza ze wszystkimi warstwami zwężenia (linia zanika ku brzegom), druga - jedna cienka, przygaszona. */
   const waves = WAVE_PERIODS.map((period, i) => {
     const shapes = Array.from({ length: WAVE_PHASES + 1 }, (_, phase) => path(period, phase / WAVE_PHASES))
     const seconds = WAVE_CYCLE_SECONDS[i] ?? 1
@@ -170,7 +170,7 @@ function dotSvg(visual: EchoVisual, elapsed: number, color: string): string {
   )
 }
 
-/** Rozmiar obrazka efektu w pikselach CSS: fala i słupki — szerokość z VISUAL_SIZE, kropka — jej średnica z zapasem. */
+/** Rozmiar obrazka efektu w pikselach CSS: fala i słupki - szerokość z VISUAL_SIZE, kropka - jej średnica z zapasem. */
 export function visualSize(kind: VisualizerKind): { width: number; height: number } {
   if (kind === 'dot') {
     const side = Math.ceil(VISUAL_SIZE.dot + 2)

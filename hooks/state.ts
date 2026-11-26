@@ -100,7 +100,7 @@ export async function writeUiLanguage($: EngineInterface, code: string): Promise
   useUiLanguage(code)
 }
 
-/** Na starcie sesji wczytuje zapamiętany język interfejsu; bez wyboru użytkownika — startowy (startup.json). */
+/** Na starcie sesji wczytuje zapamiętany język interfejsu; bez wyboru użytkownika - startowy (startup.json). */
 export async function loadUiLanguage($: EngineInterface, startupCode?: string): Promise<void> {
   const saved = await $.store.get(UI_LANGUAGE_STORE_KEY)
   const code = typeof saved === 'string' ? saved : (startupCode ?? DEFAULT_UI_LANGUAGE)

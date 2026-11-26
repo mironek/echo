@@ -108,7 +108,7 @@ def endTurn(sessionId):
 
 
 def purge():
-    """Usuwa pliki sesji starsze niż historyDays (przy 0 — wszystkie)."""
+    """Usuwa pliki sesji starsze niż historyDays (przy 0 - wszystkie)."""
     days = historyDays()
     removed = 0
     for name in os.listdir(paths.HISTORY_DIR):

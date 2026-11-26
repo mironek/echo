@@ -46,7 +46,7 @@ def defaultConfig(systemLanguage):
         "fallbackLanguage": systemLanguage if fallback == "system" else fallback,
         "speed": float(startup.get("speed", 1.0)),
         "muted": False,
-        # „final” (Wynik) — dawniej „auto”; obie nazwy działają.
+        # „final” (Wynik) - dawniej „auto”; obie nazwy działają.
         "autoRead": mode in ("final", "auto", "live"),
         "liveRead": mode == "live",
         "soundCues": sounds != "off",

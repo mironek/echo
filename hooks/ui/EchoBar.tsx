@@ -82,8 +82,8 @@ function StatusIndicator(ui: ElementTable, s: EchoStatus, now: number) {
 }
 
 /**
- * Szerokość (w znakach) miejsca na stan: przy włączonej wizualizacji — szerokość obrazka wybranego efektu
- * (z VISUAL_SIZE), co najmniej tyle, żeby zmieściły się krótkie teksty; przy wyłączonej — stała szerokość tekstu.
+ * Szerokość (w znakach) miejsca na stan: przy włączonej wizualizacji - szerokość obrazka wybranego efektu
+ * (z VISUAL_SIZE), co najmniej tyle, żeby zmieściły się krótkie teksty; przy wyłączonej - stała szerokość tekstu.
  */
 function statusWidth(s: EchoStatus): number {
   const kind = s.visualizer as VisualizerKind

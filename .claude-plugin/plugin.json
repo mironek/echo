@@ -1,7 +1,7 @@
 {
   "name": "echo",
   "version": "1.0.0",
-  "description": "Czyta odpowiedzi Claude'a na głos lokalnym, neuronowym głosem Piper: sekcje, tempo, tryb Live, wiele języków. Bez chmury.",
+  "description": "Keep working while Claude talks. Echo reads every reply aloud, section by section, with pause, skip and speed controls - no cloud, no account, no cost. Free neural voices in 50+ languages.",
   "author": { "name": "Mirosław Sokół" },
   "icon": "./.claude-plugin/icon.png",
   "license": "MIT",
