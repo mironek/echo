@@ -4,7 +4,7 @@
     "name": "Mirosław Sokół"
   },
   "metadata": {
-    "description": "Echo - Claude's replies read aloud with local neural voices: no cloud, no account, no cost."
+    "description": "Echo. Reads Claude's every response aloud, using local neural voices - no cloud, no account, no cost."
   },
   "plugins": [
     {
