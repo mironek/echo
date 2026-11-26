@@ -29,7 +29,7 @@ export async function openLanguagesPane($: EngineInterface): Promise<void> {
 
 /**
  * „+” w panelu ustawień: przechodzi do panelu języków. Aplikacja nie przełącza zakładki, gdy klik padł w innym
- * panelu (prośba o fokus jest wtedy odrzucana), więc panel ustawień jest zamykany — widać od razu panel języków.
+ * panelu (prośba o fokus jest wtedy odrzucana), więc panel ustawień jest zamykany - widać od razu panel języków.
  * Do ustawień wraca się przez ⚙.
  */
 export async function switchToLanguagesPane($: EngineInterface): Promise<void> {

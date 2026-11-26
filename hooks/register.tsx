@@ -64,7 +64,7 @@ export const register: Register = on => {
   })
 
   // Widoczne myślenie: prawdziwe myślenie modelu przychodzi w strumieniu puste (zaszyfrowane), a blok myślenia
-  // z treścią to tekst, który użytkownik widzi w czacie jak wiadomość — Echo czyta go jak zwykłą wiadomość.
+  // z treścią to tekst, który użytkownik widzi w czacie jak wiadomość - Echo czyta go jak zwykłą wiadomość.
   // Każdy fragment strumienia przechodzi dalej bez zmian; blok jest wysyłany, gdy się skończy (zaczyna się następny).
   on('turn.step', async function* ($, e, next) {
     const stream = next(e)

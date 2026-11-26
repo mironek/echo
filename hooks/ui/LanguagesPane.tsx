@@ -51,12 +51,12 @@ function makeDefault($: EngineInterface, voiceKey: string): void {
 }
 
 /**
- * Przycisk-kropka domyślnego głosu, bez tła: ◉ przy domyślnym, ○ przy pozostałych — kliknięcie ustawia głos
+ * Przycisk-kropka domyślnego głosu, bez tła: ◉ przy domyślnym, ○ przy pozostałych - kliknięcie ustawia głos
  * jako domyślny. Bez głosu: puste miejsce tej samej szerokości, żeby kolumna przycisków stała równo.
  */
 function DefaultButton(ui: ElementTable, $: EngineInterface, id: string, voiceKey: string | null, isDefault: boolean) {
   const { Box, Button, Text } = ui
-  // Większa kropka: rozmiar tekstu działa w przycisku (kolor nie — przycisk narzuca swój).
+  // Większa kropka: rozmiar tekstu działa w przycisku (kolor nie - przycisk narzuca swój).
   return (
     <Box key={'default-slot-' + id} {...styles.defaultSlot}>
       {voiceKey !== null &&
@@ -145,7 +145,7 @@ function modelDefaultTarget(voice: EchoCatalogVoice, defaultVoice: string | unde
   return `${voice.voice}#${voice.speakerNames[0]}`
 }
 
-/** Jeden głos rozwiniętego języka: kropka domyślnego głosu, opis (przy wielu lektorach — rozwijany), akcja po prawej. */
+/** Jeden głos rozwiniętego języka: kropka domyślnego głosu, opis (przy wielu lektorach - rozwijany), akcja po prawej. */
 function VoiceRow(
   ui: ElementTable,
   $: EngineInterface,

@@ -53,7 +53,7 @@ function fill(text: string, params: Record<string, string | number>): string {
 
 /**
  * Zapasowy tekst dla klucza bez tłumaczenia (także w angielskim): ostatnia część klucza, np. `teal`
- * z `color.teal` — zamiast błędu, który zatrzymałby rysowanie paska lub panelu.
+ * z `color.teal` - zamiast błędu, który zatrzymałby rysowanie paska lub panelu.
  */
 function missingText(key: string): string {
   return key.split('.').pop() ?? key

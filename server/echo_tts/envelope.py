@@ -1,4 +1,4 @@
-"""Obwiednia głośności sekcji (do wizualizacji na pasku): poziom 0–1 co ENVELOPE_STEP sekund."""
+"""Obwiednia głośności sekcji (do wizualizacji na pasku): poziom 0-1 co ENVELOPE_STEP sekund."""
 import wave
 
 import numpy as np
@@ -10,7 +10,7 @@ MAX_LEVELS = 2400
 
 
 def envelopeOf(path):
-    """Zwraca (krok w sekundach, poziomy 0–1) dla pliku wav; poziomy znormalizowane do najgłośniejszego fragmentu."""
+    """Zwraca (krok w sekundach, poziomy 0-1) dla pliku wav; poziomy znormalizowane do najgłośniejszego fragmentu."""
     with wave.open(path, "rb") as r:
         rate = r.getframerate()
         channels = r.getnchannels()

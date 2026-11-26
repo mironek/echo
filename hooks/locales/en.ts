@@ -1,4 +1,4 @@
-// Angielski — język wzorcowy: jego klucze wyznaczają typ Messages, który muszą spełnić wszystkie inne języki.
+// Angielski - język wzorcowy: jego klucze wyznaczają typ Messages, który muszą spełnić wszystkie inne języki.
 // Nowy tekst: dodaj klucz tutaj i w KAŻDYM pliku w tym folderze (brak klucza = błąd sprawdzania typów).
 // {nazwa} w tekście zastępuje parametr; obiekt { one, few, many, other } to formy liczby mnogiej (Intl.PluralRules).
 

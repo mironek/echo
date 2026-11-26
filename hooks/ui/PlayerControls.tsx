@@ -1,5 +1,5 @@
 // Odtwarzacz na pasku: ▶/⏸ z licznikiem sekcji, ❮ ❯, ⏹ i tempo.
-// Nieaktywny przycisk jest rysowany bez tła i ramki (plain), z przygaszonym tekstem — w modach nie ma opacity
+// Nieaktywny przycisk jest rysowany bez tła i ramki (plain), z przygaszonym tekstem - w modach nie ma opacity
 // ani stanu disabled. Każdy przycisk stoi w miejscu o stałej szerokości, więc zmiana stanu niczego nie przesuwa.
 
 import type { ElementTable, EngineInterface } from 'claude-code'

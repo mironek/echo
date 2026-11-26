@@ -46,14 +46,14 @@ class Speaker:
         self.turnMessages = []
         self.messageStarts = set()
         self.isLiveReading = False
-        # Od której wiadomości zaczyna się ostatnia odpowiedź (tekst po ostatnim użyciu narzędzia) — tryb Wynik.
+        # Od której wiadomości zaczyna się ostatnia odpowiedź (tekst po ostatnim użyciu narzędzia) - tryb Wynik.
         self.finalStart = 0
         # Wizualizacja czytanej sekcji: identyfikator, krok i poziomy obwiedni (None, gdy nic nie gra).
         self.visual = None
 
     # ------------------------------------------------------------ odpowiedź ---
     def saveTurn(self):
-        """Zapisuje odpowiedź załadowanej sesji (pamięć i — zależnie od ustawień — dysk)."""
+        """Zapisuje odpowiedź załadowanej sesji (pamięć i - zależnie od ustawień - dysk)."""
         if self.sessionId is not None:
             history.save(self.sessionId, self.turnMessages, self.isTurnActive, self.finalStart)
 
@@ -175,7 +175,7 @@ class Speaker:
             self.saveTurn()
 
     def finalSectionIndex(self):
-        """Pierwsza sekcja ostatniej odpowiedzi (tekst po ostatnim użyciu narzędzia); bez narzędzi — sekcja 1."""
+        """Pierwsza sekcja ostatniej odpowiedzi (tekst po ostatnim użyciu narzędzia); bez narzędzi - sekcja 1."""
         starts = sorted(self.messageStarts)
         if 0 < self.finalStart < len(starts):
             return starts[self.finalStart]
@@ -208,7 +208,7 @@ class Speaker:
             script = scriptLanguage(text)
             if script and not hasVoiceForScript(script, available):
                 # Tekst w piśmie, którego żaden zainstalowany głos nie przeczyta (np. japoński przy samym polskim
-                # i angielskim): brak głosu — tekst czeka na zainstalowanie głosu, zamiast brzmieć obcym głosem.
+                # i angielskim): brak głosu - tekst czeka na zainstalowanie głosu, zamiast brzmieć obcym głosem.
                 return script, None
             language = detectLanguage(text, available, fallback)
         preferred = config["voiceForLanguage"].get(language)
@@ -363,7 +363,7 @@ class Speaker:
 
     # ----------------------------------------------------------- odtwarzanie ---
     def currentFraction(self):
-        """Zwraca, jaka część bieżącego zdania już zabrzmiała (0–1), cofniętą odrobinę dla kontekstu."""
+        """Zwraca, jaka część bieżącego zdania już zabrzmiała (0-1), cofniętą odrobinę dla kontekstu."""
         if self.chunkDuration <= 0:
             return 0.0
         elapsed = min(1.0, (time.time() - self.chunkStarted) / self.chunkDuration)

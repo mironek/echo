@@ -74,7 +74,7 @@ def sectionCount(messages):
 
 
 def statusPayload(server, sessionId):
-    """Buduje stan paska Echo dla sesji: załadowanej — na żywo, innej — z jej zapamiętanej odpowiedzi."""
+    """Buduje stan paska Echo dla sesji: załadowanej - na żywo, innej - z jej zapamiętanej odpowiedzi."""
     speaker = server.speaker
     config = loadConfig()
     voices = installedVoices()
@@ -208,7 +208,7 @@ class Handler(BaseHTTPRequestHandler):
         route = self.route()
         sessionId = self.sessionId()
         isLoaded = sessionId == speaker.sessionId
-        # Sterowanie użytkownika zawsze przełącza na jego czat; zdarzenia odpowiedzi — tylko gdy nic nie gra.
+        # Sterowanie użytkownika zawsze przełącza na jego czat; zdarzenia odpowiedzi - tylko gdy nic nie gra.
         if not isLoaded and (route in USER_ROUTES or (route.startswith("/turn/") and speaker.state != "speaking")):
             speaker.loadSession(sessionId)
             isLoaded = True

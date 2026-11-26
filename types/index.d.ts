@@ -40,7 +40,7 @@ export type EchoStatus = {
   downloadError: string | null
 }
 
-/** Wizualizacja czytanej sekcji: obwiednia głośności (poziomy 0–1 co `step` sekund) i czas startu sekcji. */
+/** Wizualizacja czytanej sekcji: obwiednia głośności (poziomy 0-1 co `step` sekund) i czas startu sekcji. */
 export type EchoVisual = {
   id: string
   startedAt: number
