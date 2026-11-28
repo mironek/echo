@@ -13,7 +13,7 @@ export const uk: Messages = {
   'onboarding.downloadingVoices': 'завантажую голоси…',
   'onboarding.toastSetup': 'Echo: перше встановлення - встановлюю Piper (кілька хвилин)…',
   'onboarding.toastVoices': 'Echo: завантажую базові голоси…',
-  'onboarding.toastReady': 'Echo готове - натисніть «Запустити Echo» на панелі Echo',
+  'onboarding.toastReady': 'Echo готове - натисніть «Запустити Echo» на панелі Echo. Не бачите панель? Надішліть будь-яке повідомлення в чаті, і вона з\'явиться',
   'onboarding.toastStarted': 'Echo увімкнено - відповіді Claude читатимуться вголос',
   'state.installingVoice': 'встановлюю {voice}…',
   'state.queued': ' (+{count})',

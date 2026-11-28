@@ -13,7 +13,7 @@ export const zh: Messages = {
   'onboarding.downloadingVoices': '正在下载语音…',
   'onboarding.toastSetup': 'Echo：首次设置 - 正在安装 Piper（需要几分钟）…',
   'onboarding.toastVoices': 'Echo：正在下载基础语音…',
-  'onboarding.toastReady': 'Echo 已就绪 - 请点击 Echo 栏上的“启动 Echo”',
+  'onboarding.toastReady': 'Echo 已就绪 - 请点击 Echo 栏上的“启动 Echo”。看不到 Echo 栏？在聊天中发送任意消息，它就会出现',
   'onboarding.toastStarted': 'Echo 已开启 - Claude 的回答将被朗读',
   'state.installingVoice': '正在安装 {voice}…',
   'state.queued': '（+{count}）',

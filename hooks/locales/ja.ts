@@ -13,7 +13,7 @@ export const ja: Messages = {
   'onboarding.downloadingVoices': '音声をダウンロード中…',
   'onboarding.toastSetup': 'Echo: 初回セットアップ - Piper をインストール中（数分かかります）…',
   'onboarding.toastVoices': 'Echo: 基本の音声をダウンロード中…',
-  'onboarding.toastReady': 'Echo の準備ができました - Echo バーの「Echo を開始」を押してください',
+  'onboarding.toastReady': 'Echo の準備ができました - Echo バーの「Echo を開始」を押してください。バーが見えない場合は、チャットで何かメッセージを送ると表示されます',
   'onboarding.toastStarted': 'Echo がオンになりました - Claude の回答を読み上げます',
   'state.installingVoice': '{voice} をインストール中…',
   'state.queued': '（+{count}）',
