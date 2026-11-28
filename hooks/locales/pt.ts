@@ -13,7 +13,7 @@ export const pt: Messages = {
   'onboarding.downloadingVoices': 'baixando vozes…',
   'onboarding.toastSetup': 'Echo: primeira instalação - instalando o Piper (alguns minutos)…',
   'onboarding.toastVoices': 'Echo: baixando as vozes básicas…',
-  'onboarding.toastReady': 'Echo está pronto - clique em “Iniciar Echo” na barra do Echo',
+  'onboarding.toastReady': 'Echo está pronto - clique em “Iniciar Echo” na barra do Echo. Não vê a barra? Envie qualquer mensagem no chat e ela aparecerá',
   'onboarding.toastStarted': 'Echo está ativo - as respostas do Claude serão lidas em voz alta',
   'state.installingVoice': 'instalando {voice}…',
   'state.queued': ' (+{count})',

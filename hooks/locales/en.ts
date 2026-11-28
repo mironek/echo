@@ -14,7 +14,7 @@ export const en = {
   'onboarding.downloadingVoices': 'downloading voices…',
   'onboarding.toastSetup': 'Echo: first-time setup - installing Piper (a few minutes)…',
   'onboarding.toastVoices': 'Echo: downloading the basic voices…',
-  'onboarding.toastReady': 'Echo is ready - press „Start Echo” on the Echo bar',
+  'onboarding.toastReady': 'Echo is ready - press „Start Echo” on the Echo bar. No bar? Send any message in the chat and it will appear',
   'onboarding.toastStarted': 'Echo is on - Claude\'s replies will be read aloud',
   // Stan (szary tekst po prawej)
   'state.installingVoice': 'installing {voice}…',
